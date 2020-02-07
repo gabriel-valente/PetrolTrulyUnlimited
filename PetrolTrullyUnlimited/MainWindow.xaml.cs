@@ -23,6 +23,8 @@ namespace PetrolTrullyUnlimited
         public MainWindow()
         {
             InitializeComponent();
+
+            Frm_Main.Content = new Main();
         }
     }
 }

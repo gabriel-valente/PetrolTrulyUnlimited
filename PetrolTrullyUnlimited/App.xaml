@@ -4,6 +4,15 @@
              xmlns:local="clr-namespace:PetrolTrullyUnlimited"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <!--Style Grid-->
+        <Style TargetType="{x:Type Grid}">
+            <Setter Property="Control.Foreground" Value="#FFEEEEEE"/>
+            <Setter Property="Control.Background" Value="#FF454545"/>
+        </Style>
+
+        <!--Style Label-->
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="Control.Foreground" Value="#FFEEEEEE"/>
+        </Style>
     </Application.Resources>
 </Application>
