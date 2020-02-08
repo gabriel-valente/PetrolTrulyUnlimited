@@ -68,7 +68,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Functions.cs" />
     <Compile Include="Structs.cs" />
     <Compile Include="Main.xaml.cs">
       <DependentUpon>Main.xaml</DependentUpon>

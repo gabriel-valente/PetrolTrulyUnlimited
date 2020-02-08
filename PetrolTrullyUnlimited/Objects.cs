@@ -51,9 +51,5 @@ namespace PetrolTrullyUnlimited
             capacity = 150.0f,
             fuel = new Fuel[] { diesel }
         };
-
-        //Definition of Global Variable
-
-        static public List<VehicleState> vehiclesQueue = new List<VehicleState>();
     }
 }
