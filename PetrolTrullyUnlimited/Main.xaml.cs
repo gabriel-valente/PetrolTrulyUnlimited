@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -22,7 +23,7 @@ namespace PetrolTrullyUnlimited
         private List<VehicleState> vehiclesPump = new List<VehicleState>(); //List of vehicles in the pump
 
         private int nextVehicleId = 0; //Identification of vehicle/counter
-        private int timerInterval; //Seconds for each spawn
+        private int spawnInterval; //Seconds for each spawn
 
         private Random rnd = new Random(); //Get random time
         private Timer spawnTimer = new Timer(); //Declaration of timer
@@ -32,20 +33,20 @@ namespace PetrolTrullyUnlimited
             InitializeComponent();
 
             //Timer Parameters
-            timerInterval = rnd.Next(Objects.MIN_SPAWN_TIME, Objects.MAX_SPAWN_TIME);
-            spawnTimer.Interval = timerInterval;
-            spawnTimer.Elapsed += new ElapsedEventHandler(TimerEventProcessor);
+            spawnInterval = rnd.Next(Objects.MIN_SPAWN_TIME, Objects.MAX_SPAWN_TIME);
+            spawnTimer.Interval = spawnInterval;
+            spawnTimer.Elapsed += new ElapsedEventHandler(Spawner);
             spawnTimer.Enabled = true;
             spawnTimer.Start();
         }
 
-        private void TimerEventProcessor(object myObject, EventArgs myEventArgs)
+        private void Spawner(object _, EventArgs __)
         {
-            int timerInterval = rnd.Next(Objects.MIN_SPAWN_TIME, Objects.MAX_SPAWN_TIME);
+            int spawnInterval = rnd.Next(Objects.MIN_SPAWN_TIME, Objects.MAX_SPAWN_TIME);
 
             CreateVehicle(nextVehicleId++);
 
-            spawnTimer.Interval = timerInterval;
+            spawnTimer.Interval = spawnInterval;
         }
 
         /// <summary>
@@ -167,27 +168,37 @@ namespace PetrolTrullyUnlimited
                 
                 Grd_Pumps.Children.Add(image);
             }
-
         }
 
         /// <summary>
-        /// Detetes the vehicle image in the UI
+        /// Deletes the vehicle image in the UI
         /// </summary>
-        /// <param name="type">Type of vehicle to display</param>
+        /// <param name="id">Id of the vehicle to delete</param>
         /// <param name="place">If its in the Queue or Pump</param>
-        /// <param name="pump">Pump number, can be null</param>
         private void RemoveVehicleImage(int id, string place)
         {
             string name = string.Format("Img_{0}_{1}", place, id);
-
-            if (place == "Queue")
+            UIElement element;
+            if (place == "Queue") //https://www.codeproject.com/Questions/190258/Add-and-Remove-controls-in-a-WPF
             {
-                Wrp_Queue.Children.Remove((UIElement)FindName(name));
+                element = Wrp_Queue.Children.Cast<FrameworkElement>().Where(_ => _.Name == name).First();
+
+
+                Storyboard.SetTarget(Objects.fadeOut, (Image)element);
+                Storyboard.SetTargetProperty(Objects.fadeOut, new PropertyPath(OpacityProperty));
+
+                var sb = new Storyboard();
+                sb.Children.Add(Objects.fadeOut);
+
+                sb.Begin();
+
+                Wrp_Queue.Children.Remove(element);
                 Wrp_Queue.UpdateLayout();
             }
             else if (place == "Pump")
             {
-                Grd_Pumps.Children.Remove((UIElement) FindName(name));
+                element = Grd_Pumps.Children.Cast<FrameworkElement>().Where(_ => _.Name == name).First();
+                Grd_Pumps.Children.Remove(element);
                 Grd_Pumps.UpdateLayout();
             }
         }
@@ -238,9 +249,10 @@ namespace PetrolTrullyUnlimited
                 {
                     Objects.pumps[bestAvailable].available = false; //Sets the current pump in to occupied
 
+                    vehiclesQueue.RemoveAt(vehiclesQueue.FindIndex(_ => _.id == vehicle.id)); //Removes vehicle from Queue
+                    
                     vehiclesPump.Add(vehiclesQueue.Find(_ => _.id == vehicle.id)); //Adds current Queue vehicle to Pump 
 
-                    vehiclesQueue.RemoveAt(vehiclesQueue.FindIndex(_ => _.id == vehicle.id)); //Removes vehicle from Queue
 
                     //Update UI
                     Dispatcher.Invoke(() =>

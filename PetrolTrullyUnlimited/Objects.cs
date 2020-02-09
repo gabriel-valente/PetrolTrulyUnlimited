@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Animation;
 
 namespace PetrolTrullyUnlimited
 {
@@ -196,5 +197,20 @@ namespace PetrolTrullyUnlimited
         private const float PUMP_VELOCITY = 1.5f;
 
         public const byte LOWEST_PRIORITY_PUMP = 6;
+
+        //Animations
+
+        static public DoubleAnimation fadeOut = new DoubleAnimation()
+        {
+            From = 1,
+            To = 0,
+            Duration = TimeSpan.FromSeconds(2)
+        };
+
+        static public DoubleAnimation fadeIn = new DoubleAnimation()
+        {
+            From = 1,
+            To = 0
+        };
     }
 }
