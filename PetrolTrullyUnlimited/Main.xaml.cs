@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+//using System.Threading;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,31 +16,36 @@ using System.Windows.Shapes;
 
 namespace PetrolTrullyUnlimited
 {
-    /// <summary>
-    /// Interação lógica para Main.xam
-    /// </summary>
     public partial class Main : Page
     {
         private List<VehicleState> vehiclesQueue = new List<VehicleState>(); //List of Queued vehicles
+        private List<VehicleState> vehiclesPump = new List<VehicleState>(); //List of vehicles in the pump
 
-        private int nextVehicleId = 0;
+        private int nextVehicleId = 0; //Identification of vehicle/counter
+        private int timerInterval; //Seconds for each spawn
+
+        private Random rnd = new Random(); //Get random time
+        private Timer spawnTimer = new Timer(); //Declaration of timer
 
         public Main()
         {
             InitializeComponent();
 
-            //var timer = new Timer(e => Functions.CreateVehicle(nextVehicleId++), null, -1, 1500);
-
-            Timer timer2 = new Timer();
-            timer2.Interval = 500;
-            timer2.Elapsed += timer_Elapsed;
-            timer2.AutoReset = true;
-            timer2.Start();
+            //Timer Parameters
+            timerInterval = rnd.Next(Objects.MIN_SPAWN_TIME, Objects.MAX_SPAWN_TIME);
+            spawnTimer.Interval = timerInterval;
+            spawnTimer.Elapsed += new ElapsedEventHandler(TimerEventProcessor);
+            spawnTimer.Enabled = true;
+            spawnTimer.Start();
         }
 
-        void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        private void TimerEventProcessor(object myObject, EventArgs myEventArgs)
         {
+            int timerInterval = rnd.Next(Objects.MIN_SPAWN_TIME, Objects.MAX_SPAWN_TIME);
+
             CreateVehicle(nextVehicleId++);
+
+            spawnTimer.Interval = timerInterval;
         }
 
         /// <summary>
@@ -49,14 +55,20 @@ namespace PetrolTrullyUnlimited
         /// <returns></returns>
         private void CreateVehicle(int id)
         {
-            Vehicle[] vehicles = { Objects.car, Objects.van, Objects.lorry };
+            Vehicle[] vehicles =
+            {
+                Objects.car,
+                Objects.van,
+                Objects.lorry
+            };
+
             VehicleState vehicle;
 
             Random random = new Random();
 
-            byte iVehicle = (byte)random.Next(0, vehicles.Length);
-            byte iFuel = (byte)random.Next(0, vehicles[iVehicle].fuel.Length);
-            float remaining = (float)(random.NextDouble() * vehicles[iVehicle].capacity);
+            byte iVehicle = (byte)random.Next(0, vehicles.Length); //Get Random type of vehicle
+            byte iFuel = (byte)random.Next(0, vehicles[iVehicle].fuel.Length); //Get type of fuel depending on what kind they accept
+            float remaining = (float)(random.NextDouble() * (0.25 * vehicles[iVehicle].capacity)); //Random remaining fuel remaining, below 1/4 of the tank
 
 
             vehicle = new VehicleState
@@ -71,19 +83,25 @@ namespace PetrolTrullyUnlimited
 
             Dispatcher.Invoke(() =>
             {
-                VehicleImage(vehicle.type);
+                AddVehicleImage(vehicle.id, vehicle.type, "Queue");
             });
+
+            AssignVehicleToPump();
         }
 
         /// <summary>
-        /// Creates the vehicle image in the GUI
+        /// Creates the vehicle image in the UI
         /// </summary>
         /// <param name="type">Type of vehicle to display</param>
-        /// <returns></returns>
-        public void VehicleImage(string type)
+        /// <param name="place">If its in the Queue or Pump</param>
+        /// <param name="pump">Pump number, can be null</param>
+        private void AddVehicleImage(int id, string type, string place, int? pump = null)
         {
+            string name = string.Format("Img_{0}_{1}", place, id);
+
             Image image = new Image
             {
+                Name = name,
                 MaxWidth = 180,
                 Margin = new Thickness(20, 5, 20, 5)
             };
@@ -101,7 +119,138 @@ namespace PetrolTrullyUnlimited
                 image.Source = new BitmapImage(new Uri("Images/lorry.png", UriKind.Relative));
             }
 
-            Wrp_Queue.Children.Add(image);
+            if (place == "Queue")
+            {
+                Wrp_Queue.Children.Add(image);
+            }
+            else if (place == "Pump")
+            {
+                switch (pump)
+                {
+                    case 0:
+                        Grid.SetRow(image, 0);
+                        Grid.SetColumn(image, 0);
+                        break;
+                    case 1:
+                        Grid.SetRow(image, 0);
+                        Grid.SetColumn(image, 1);
+                        break;
+                    case 2:
+                        Grid.SetRow(image, 0);
+                        Grid.SetColumn(image, 2);
+                        break;
+                    case 3:
+                        Grid.SetRow(image, 2);
+                        Grid.SetColumn(image, 0);
+                        break;
+                    case 4:
+                        Grid.SetRow(image, 2);
+                        Grid.SetColumn(image, 1);
+                        break;
+                    case 5:
+                        Grid.SetRow(image, 2);
+                        Grid.SetColumn(image, 2);
+                        break;
+                    case 6:
+                        Grid.SetRow(image, 4);
+                        Grid.SetColumn(image, 0);
+                        break;
+                    case 7:
+                        Grid.SetRow(image, 4);
+                        Grid.SetColumn(image, 1);
+                        break;
+                    case 8:
+                        Grid.SetRow(image, 4);
+                        Grid.SetColumn(image, 2);
+                        break;
+                }
+                
+                Grd_Pumps.Children.Add(image);
+            }
+
+        }
+
+        /// <summary>
+        /// Detetes the vehicle image in the UI
+        /// </summary>
+        /// <param name="type">Type of vehicle to display</param>
+        /// <param name="place">If its in the Queue or Pump</param>
+        /// <param name="pump">Pump number, can be null</param>
+        private void RemoveVehicleImage(int id, string place)
+        {
+            string name = string.Format("Img_{0}_{1}", place, id);
+
+            if (place == "Queue")
+            {
+                Wrp_Queue.Children.Remove((UIElement)FindName(name));
+                Wrp_Queue.UpdateLayout();
+            }
+            else if (place == "Pump")
+            {
+                Grd_Pumps.Children.Remove((UIElement) FindName(name));
+                Grd_Pumps.UpdateLayout();
+            }
+        }
+
+        /// <summary>
+        /// Sends the car to the best available pump
+        /// </summary>
+        private void AssignVehicleToPump()
+        {
+            foreach (VehicleState vehicle in vehiclesQueue) //Get a pump for each vehicle in the line
+            {
+                byte bestAvailable = Objects.LOWEST_PRIORITY_PUMP; //Set default minimum value
+                bool foundPlace = false; //Validation that got a place in the pump
+
+                //Search in every pump for an available spot with the highest priority
+                for (int i = 0; i < Objects.pumps.Length; i++)
+                {
+                    if (Objects.pumps[i].available) //Check is its available
+                    {
+                        foreach (Fuel fuel in Objects.pumps[i].fuel)
+                        {
+                            if (vehicle.fuel.type == fuel.type && Objects.pumps[i].priority >= Objects.pumps[bestAvailable].priority) //Check if it has the requested fuel type and if it is the highest priority available
+                            {
+                                //(i + 1) % 3 == 0 Check if it is the last pump in the line
+                                //(i + 2) % 3 == 0 Check if it is the middle pump in the line
+                                //(i + 3) % 3 == 0 Check if it is the first pump in the line
+                                if ((i + 1) % 3 == 0 && Objects.pumps[i - 1].available && Objects.pumps[i - 2].available)
+                                {
+                                    bestAvailable = (byte)i;
+                                    foundPlace = true;
+                                }
+                                else if ((i + 2) % 3 == 0 && Objects.pumps[i - 1].available)
+                                {
+                                    bestAvailable = (byte)i;
+                                    foundPlace = true;
+                                }
+                                else if ((i + 3) % 3 == 0)
+                                {
+                                    bestAvailable = (byte)i;
+                                    foundPlace = true;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (foundPlace) //If found a place it will update the UI
+                {
+                    Objects.pumps[bestAvailable].available = false; //Sets the current pump in to occupied
+
+                    vehiclesPump.Add(vehiclesQueue.Find(_ => _.id == vehicle.id)); //Adds current Queue vehicle to Pump 
+
+                    vehiclesQueue.RemoveAt(vehiclesQueue.FindIndex(_ => _.id == vehicle.id)); //Removes vehicle from Queue
+
+                    //Update UI
+                    Dispatcher.Invoke(() =>
+                    {
+                        RemoveVehicleImage(vehicle.id, "Queue");
+                        AddVehicleImage(vehicle.id, vehicle.type, "Pump", bestAvailable);
+                    });
+
+                }
+            }
         }
     }
 }

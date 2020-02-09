@@ -55,5 +55,7 @@ namespace PetrolTrullyUnlimited
         public byte id { get; set; }
         public Fuel[] fuel { get; set; }
         public float velocity { get; set; }
+        public bool available { get; set; }
+        public byte priority { get; set; }
     }
 }
