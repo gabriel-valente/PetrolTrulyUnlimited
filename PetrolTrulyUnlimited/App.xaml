@@ -1,7 +1,7 @@
-﻿<Application x:Class="PetrolTrullyUnlimited.App"
+﻿<Application x:Class="PetrolTrulyUnlimited.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:PetrolTrullyUnlimited"
+             xmlns:local="clr-namespace:PetrolTrulyUnlimited"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <!--Style Grid-->

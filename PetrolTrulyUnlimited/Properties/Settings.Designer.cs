@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PetrolTrullyUnlimited.Properties
+namespace PetrolTrulyUnlimited.Properties
 {
 
 
