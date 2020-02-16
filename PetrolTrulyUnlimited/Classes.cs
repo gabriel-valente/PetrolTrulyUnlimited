@@ -1,4 +1,5 @@
 ﻿using System.Timers;
+using System.Windows.Threading;
 
 namespace PetrolTrulyUnlimited
 {
@@ -18,6 +19,7 @@ namespace PetrolTrulyUnlimited
         private float _litres;
         private Fuel[] _fuel;
         private Fuel _fuelType;
+        private Timer _serviceTimer = new Timer();
 
         public int Id {
             get
@@ -85,20 +87,40 @@ namespace PetrolTrulyUnlimited
                 _fuelType = value;
             }
         }
+        public Timer ServiceTimer
+        {
+            get
+            {
+                return _serviceTimer;
+            }
+
+            set
+            {
+                _serviceTimer = value;
+            }
+        }
 
         public Vehicle() { }
 
-        public static Vehicle SetVehicle(Vehicle vehicle, float litres, Fuel fuelType)
+        public static int GetId()
+        {
+            return ++autoId;
+        }
+
+        public static Vehicle SetVehicle(int Id, Vehicle vehicle, float litres, Fuel fuelType, Timer serviceTimer)
         {
             Vehicle thisVehicle = new Vehicle
             {
-                _id = autoId++,
+                _id = Id,
                 _type = vehicle.Type,
                 _capacity = vehicle.Capacity,
                 _litres = litres,
                 _fuel = vehicle.Fuel,
-                _fuelType = fuelType
+                _fuelType = fuelType,
+                _serviceTimer = serviceTimer
             };
+
+            thisVehicle.ServiceTimer.Start();
 
             return thisVehicle;
         }

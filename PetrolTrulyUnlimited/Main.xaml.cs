@@ -43,7 +43,6 @@ namespace PetrolTrulyUnlimited
             checkTimer.Interval = 100;
             checkTimer.Elapsed += new ElapsedEventHandler(AssignVehicleToPump);
             checkTimer.Enabled = true;
-            checkTimer.Start();
         }
 
         private void Spawner(object _, EventArgs __)
@@ -53,6 +52,8 @@ namespace PetrolTrulyUnlimited
             CreateVehicle();
 
             spawnTimer.Interval = spawnInterval;
+
+            QueueLengthChecker();
         }
 
         /// <summary>
@@ -74,17 +75,53 @@ namespace PetrolTrulyUnlimited
             byte iVehicle = (byte)random.Next(0, vehicles.Length); //Get Random type of vehicle
             float remaining = (float)(random.NextDouble() * (0.25 * vehicles[iVehicle].Capacity)); //Random remaining fuel remaining, below 1/4 of the tank
             byte iFuel = (byte)random.Next(0, vehicles[iVehicle].Fuel.Length); //Get type of fuel depending on what kind they accept
+            int time = random.Next(Global.MIN_SERVICE_TIME, Global.MAX_SERVICE_TIME); //Set the time the vehicle will wait until he leaves
+            Timer serviceTimer = new Timer();
+            int vehicleId = Vehicle.GetId();
 
-            vehicle = Vehicle.SetVehicle(vehicles[iVehicle], remaining, vehicles[iVehicle].Fuel[iFuel]);
+
+            serviceTimer.Interval = time;
+            serviceTimer.Elapsed += (sender, args) => {
+                Dispatcher.InvokeAsync(() => {
+                    vehiclesQueue.Find(_ => _.Id == vehicleId).ServiceTimer.Stop();
+                    vehiclesQueue.RemoveAt(vehiclesQueue.FindIndex(_ => _.Id == vehicleId)); //Removes vehicle from Queue
+                    QueueLengthChecker();
+                    UpdateVehicleImage(vehicleId, "Queue");          
+                });
+            };
+            serviceTimer.Enabled = true;
+
+            vehicle = Vehicle.SetVehicle(vehicleId, vehicles[iVehicle], remaining, vehicles[iVehicle].Fuel[iFuel], serviceTimer);
 
             vehiclesQueue.Add(vehicle);
 
-            Dispatcher.Invoke(() =>
+            Dispatcher.InvokeAsync(() =>
             {
                 AddVehicleImage(vehicle.Id, vehicle.Type, "Queue");
             });
 
-            AssignVehicleToPump((object)null, (EventArgs)null);
+            AssignVehicleToPump(null, null);
+        }
+
+        private void QueueLengthChecker()
+        {
+            if (vehiclesQueue.Count < 5)
+            {
+                spawnTimer.Start();
+            }
+            else
+            {
+                spawnTimer.Stop();
+            }
+
+            if (vehiclesQueue.Count > 0 && vehiclesQueue.Count <= 5)
+            {
+                checkTimer.Start();
+            }
+            else if (vehiclesQueue.Count == 0)
+            {
+                checkTimer.Stop();
+            }
         }
 
         /// <summary>
@@ -207,14 +244,20 @@ namespace PetrolTrulyUnlimited
                     Wrp_Queue.Children.Remove(element);
                     Wrp_Queue.UpdateLayout();
 
-                    AddVehicleImage(id, type, "Pump", location);
+                    if (!string.IsNullOrEmpty(type) || location != null)
+                    {
+                        vehiclesPump.Find(_ => _.Id == id).ServiceTimer.Stop();
+                        
+                        AddVehicleImage(id, type, "Pump", location);
+                    }
 
                     sb.Stop();
                 };
                 sb.Children.Add(Global.fadeOut);
 
-                sb.Begin();        
+                sb.Begin();
 
+                vehiclesQueue.Find(_ => _.Id == id).ServiceTimer.Stop();
             }
             else if (place == "Pump")
             {
@@ -296,6 +339,8 @@ namespace PetrolTrulyUnlimited
 
                 }
             }
+
+            QueueLengthChecker();
         }
         
         private void Fueling(byte pumpId, int vehicleId)
