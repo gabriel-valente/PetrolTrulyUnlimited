@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Timers;
@@ -103,6 +104,9 @@ namespace PetrolTrulyUnlimited
             AssignVehicleToPump(null, null);
         }
 
+        /// <summary>
+        /// Checks if the timer should run or not. And if the auto vehicle assigner should run.
+        /// </summary>
         private void QueueLengthChecker()
         {
             if (vehiclesQueue.Count < 5)
@@ -158,6 +162,8 @@ namespace PetrolTrulyUnlimited
             if (place == "Queue")
             {
                 Wrp_Queue.Children.Add(image);
+
+                Global.queueInformation.TotalVehicles++;
             }
             else if (place == "Pump")
             {
@@ -215,6 +221,8 @@ namespace PetrolTrulyUnlimited
 
                 sb.Begin();
             }
+
+            QueuePopup();
         }
 
         /// <summary>
@@ -247,9 +255,17 @@ namespace PetrolTrulyUnlimited
                     if (!string.IsNullOrEmpty(type) || location != null)
                     {
                         vehiclesPump.Find(_ => _.Id == id).ServiceTimer.Stop();
-                        
+
+                        Global.queueInformation.VehiclesEntered++;
+
                         AddVehicleImage(id, type, "Pump", location);
                     }
+                    else
+                    {
+                        Global.queueInformation.VehiclesRejected++;
+                    }
+
+                    QueuePopup();
 
                     sb.Stop();
                 };
@@ -336,19 +352,28 @@ namespace PetrolTrulyUnlimited
                     {
                         UpdateVehicleImage(vehicle.Id, "Queue", vehicle.Type, bestAvailable);
                     });
-
                 }
             }
 
             QueueLengthChecker();
         }
         
+        /// <summary>
+        /// The process of fueling starts to the specific car
+        /// </summary>
+        /// <param name="pumpId">ID of the pump the vehicle is in.</param>
+        /// <param name="vehicleId">ID of the vehicle</param>
         private void Fueling(byte pumpId, int vehicleId)
         {
             Vehicle vehicle = vehiclesPump.Find(_ => _.Id == vehicleId);
             Pump pump = Station.Pumps.First(_ => _.Id == pumpId);
             float toFill = vehicle.Capacity - vehicle.Litres;
             float fuelingTime = (toFill / Global.PUMP_VELOCITY) * 1000;
+
+            if (fuelingTime > Global.MAX_FUELLING_TIME)
+            {
+                fuelingTime = Global.MAX_FUELLING_TIME;
+            }
 
             pump.FuelingTimer.Interval = fuelingTime;
             pump.FuelingTimer.Elapsed += (sender, args) => {
@@ -364,6 +389,52 @@ namespace PetrolTrulyUnlimited
 
             Station.Pumps.First(_ => _.Id == pumpId).FuelingTimer = pump.FuelingTimer;
             Station.Pumps.First(_ => _.Id == pumpId).FuelingTimer.Start();
+        }
+
+        private void Popup_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (!Queue_Popup.IsOpen)
+                Queue_Popup.IsOpen = true;
+
+            var mousePosition = e.GetPosition(Grd_QueueName);
+            Queue_Popup.HorizontalOffset = mousePosition.X;
+            Queue_Popup.VerticalOffset = mousePosition.Y;
+
+            QueuePopup();
+        }
+
+        private void Popup_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (Queue_Popup.IsOpen)
+                Queue_Popup.IsOpen = false;
+        }
+
+        /// <summary>
+        /// Updates the information in the queue popup
+        /// </summary>
+        private void QueuePopup()
+        {
+            if (Queue_Popup.IsOpen)
+            {
+                Lbl_Queue_TotalVehicles.Content = Global.queueInformation.TotalVehicles;
+                Lbl_Queue_QueueLenght.Content = vehiclesQueue.Count;
+                Lbl_Queue_VehiclesEntered.Content = Global.queueInformation.VehiclesEntered;
+                Lbl_Queue_VehiclesRejected.Content = Global.queueInformation.VehiclesRejected;
+
+                if (Global.queueInformation.VehiclesEntered + Global.queueInformation.VehiclesRejected > 0)
+                {
+                    int acceptedVehicles = Global.queueInformation.VehiclesEntered;
+                    int rejectedVehicles = Global.queueInformation.VehiclesRejected;
+
+                    Lbl_Queue_PercentageAccepted.Content = string.Format(CultureInfo.InvariantCulture, "{0:##0.00}%", Math.Round((decimal)acceptedVehicles * 100 / (acceptedVehicles + rejectedVehicles), 2));
+                    Lbl_Queue_PercentageRejected.Content = string.Format(CultureInfo.InvariantCulture, "{0:##0.00}%", Math.Round((decimal)rejectedVehicles * 100 / (acceptedVehicles + rejectedVehicles), 2));
+                }
+                else
+                {
+                    Lbl_Queue_PercentageAccepted.Content = "0.00%";
+                    Lbl_Queue_PercentageRejected.Content = "0.00%";
+                }
+            }
         }
     }
 }

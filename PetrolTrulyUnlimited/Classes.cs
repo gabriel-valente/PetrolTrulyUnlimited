@@ -1,27 +1,27 @@
 ﻿using System.Timers;
-using System.Windows.Threading;
 
 namespace PetrolTrulyUnlimited
 {
     /// <summary>
-    /// Basic definition of vehicle.
-    /// Type: Type of vehicle
-    /// Capacity: Capacity of fuel
-    /// Fuel: Acceptable Fuels
+    /// Basic definition of a vehicle.
     /// </summary>
     public class Vehicle
     {
-        private static int autoId;
+        private static int autoId; //Auto increment Id
 
-        private int _id;
-        private string _type;
-        private float _capacity;
-        private float _litres;
-        private Fuel[] _fuel;
-        private Fuel _fuelType;
-        private Timer _serviceTimer = new Timer();
+        private int _id; //Id of the vehicle
+        private string _type; //Type of vehicle
+        private float _capacity; //Total capacity of the tank
+        private float _litres; //Current litres in the tank
+        private Fuel[] _fuel; //Possible fuel types
+        private Fuel _fuelType; //Fuel type of the current vehicle
+        private Timer _serviceTimer = new Timer(); //Timer for vehicle to leave if is not in the pump
 
-        public int Id {
+        /// <summary>
+        /// Id of current vehicle.
+        /// </summary>
+        public int Id 
+        {
             get
             {
                 return _id;
@@ -32,7 +32,11 @@ namespace PetrolTrulyUnlimited
                 _id = value;
             }
         }
-        public string Type {
+        /// <summary>
+        /// Type of vehicle.
+        /// </summary>
+        public string Type 
+        {
             get
             {
                 return _type;
@@ -43,7 +47,11 @@ namespace PetrolTrulyUnlimited
                 _type = value;
             }
         }
-        public float Capacity {
+        /// <summary>
+        /// Total capacity of the tank.
+        /// </summary>
+        public float Capacity 
+        {
             get
             {
                 return _capacity;
@@ -54,7 +62,11 @@ namespace PetrolTrulyUnlimited
                 _capacity = value;
             }
         }
-        public float Litres {
+        /// <summary>
+        /// Litres remaining in the tank.
+        /// </summary>
+        public float Litres 
+        {
             get
             {
                 return _litres;
@@ -65,7 +77,11 @@ namespace PetrolTrulyUnlimited
                 _litres = value;
             }
         }
-        public Fuel[] Fuel {
+        /// <summary>
+        /// Possible types of fuel for the vehicle.
+        /// </summary>
+        public Fuel[] Fuel 
+        {
             get
             {
                 return _fuel;
@@ -76,7 +92,11 @@ namespace PetrolTrulyUnlimited
                 _fuel = value;
             }
         }
-        public Fuel FuelType {
+        /// <summary>
+        /// Type of fuel od the current vehicle.
+        /// </summary>
+        public Fuel FuelType 
+        {
             get
             {
                 return _fuelType;
@@ -87,6 +107,9 @@ namespace PetrolTrulyUnlimited
                 _fuelType = value;
             }
         }
+        /// <summary>
+        /// Timer for the vehicle to leave if is not in the pump.
+        /// </summary>
         public Timer ServiceTimer
         {
             get
@@ -102,11 +125,24 @@ namespace PetrolTrulyUnlimited
 
         public Vehicle() { }
 
+        /// <summary>
+        /// Get the next vehicle Id.
+        /// </summary>
+        /// <returns>Vehicle Id.</returns>
         public static int GetId()
         {
             return ++autoId;
         }
 
+        /// <summary>
+        /// Creates a new vehicle.
+        /// </summary>
+        /// <param name="Id">Id of the vehicle.</param>
+        /// <param name="vehicle">Blueprint of vehicle.</param>
+        /// <param name="litres">Remaining litres int the tank.</param>
+        /// <param name="fuelType">Fuel that the vehicle uses.</param>
+        /// <param name="serviceTimer">Timer to leave if is not in the pump.</param>
+        /// <returns>Configured vehicle.</returns>
         public static Vehicle SetVehicle(int Id, Vehicle vehicle, float litres, Fuel fuelType, Timer serviceTimer)
         {
             Vehicle thisVehicle = new Vehicle
@@ -127,16 +163,18 @@ namespace PetrolTrulyUnlimited
     }
 
     /// <summary>
-    /// Kinds of fuel available.
-    /// Type: Type of fuel
-    /// Price: Price per litre.
+    /// Basic definition of a fuel.
     /// </summary>
     public class Fuel
     {
-        private string _type;
-        private float _price;
+        private string _type; //Name of the Fuel
+        private float _price; //Current price of the fuel per litre
 
-        public string Type {
+        /// <summary>
+        /// Name of the fuel.
+        /// </summary>
+        public string Type 
+        {
             get
             {
                 return _type;
@@ -147,7 +185,11 @@ namespace PetrolTrulyUnlimited
                 _type = value;
             }
         }
-        public float Price {
+        /// <summary>
+        /// Price of the fuel per litre.
+        /// </summary>
+        public float Price 
+        {
             get
             {
                 return _price;
@@ -161,6 +203,11 @@ namespace PetrolTrulyUnlimited
 
         public Fuel() { }
 
+        /// <summary>
+        /// Sets the fuel definition.
+        /// </summary>
+        /// <param name="type">Name of the fuel.</param>
+        /// <param name="price">Price of the fuel per litre.</param>
         public Fuel(string type, float price)
         {
             this._type = type;
@@ -169,21 +216,19 @@ namespace PetrolTrulyUnlimited
     }
 
     /// <summary>
-    /// Definition of pump.
-    /// ID: Unique ID of pump
-    /// Fuel: Fuel/s available in the pump
-    /// Velocity: Rate of litres per second
+    /// Basic definition of a pump.
     /// </summary>
     public class Pump
     {
-        private byte _id;
-        private Fuel[] _fuel;
-        private float _velocity;
-        private bool _available;
-        private byte _priority;
-        private Timer _fuelingTimer = new Timer();
+        private byte _id; //Id of the pump
+        private Fuel[] _fuel; //Fuel types that the pump has
+        private float _velocity; //Velocity that the pump dispenses the fuel
+        private bool _available; //If the pump is available or occupied
+        private byte _priority; //Higher priority means a better choice
+        private Timer _fuelingTimer = new Timer(); //Fuelling timer
 
-        public byte Id {
+        public byte Id 
+        {
             get
             {
                 return _id;
@@ -194,7 +239,8 @@ namespace PetrolTrulyUnlimited
                 _id = value;
             }
         }
-        public Fuel[] Fuel {
+        public Fuel[] Fuel 
+        {
             get
             {
                 return _fuel;
@@ -205,7 +251,8 @@ namespace PetrolTrulyUnlimited
                 _fuel = value;
             }
         }
-        public float Velocity {
+        public float Velocity 
+        {
             get
             {
                 return _velocity;
@@ -216,7 +263,8 @@ namespace PetrolTrulyUnlimited
                 _velocity = value;
             }
         }
-        public bool Available {
+        public bool Available 
+        {
             get
             {
                 return _available;
@@ -227,7 +275,8 @@ namespace PetrolTrulyUnlimited
                 _available = value;
             }
         }
-        public byte Priority {
+        public byte Priority 
+        {
             get
             {
                 return _priority;
@@ -238,7 +287,8 @@ namespace PetrolTrulyUnlimited
                 _priority = value;
             }
         }
-        public Timer FuelingTimer {
+        public Timer FuelingTimer 
+        {
             get
             {
                 return _fuelingTimer;
@@ -251,5 +301,107 @@ namespace PetrolTrulyUnlimited
         }
 
         public Pump() { }
+    }
+
+    public class QueueInformation
+    {
+        private int _totalVehicles;
+        private int _vehiclesEntered;
+        private int _vehiclesRejected;
+
+        public int TotalVehicles
+        { 
+            get
+            {
+                return _totalVehicles;
+            }
+
+            set
+            {
+                _totalVehicles = value;
+            }
+        }
+        public int VehiclesEntered 
+        {
+            get
+            {
+                return _vehiclesEntered;
+            }
+
+            set
+            {
+                _vehiclesEntered = value;
+            }
+        }
+        public int VehiclesRejected 
+        {
+            get
+            {
+                return _vehiclesRejected;
+            }
+
+            set
+            {
+                _vehiclesRejected = value;
+            }
+        }
+
+        public QueueInformation() { }
+    }
+
+    public class Receipt
+    {
+        private string _vehicleType;
+        private float _litres;
+        private int _pumpId;
+
+        public string VehicleType
+        {
+            get
+            {
+                return _vehicleType;
+            }
+
+            set
+            {
+                _vehicleType = value;
+            }
+        }
+        public float Litres
+        {
+            get
+            {
+                return _litres;
+            }
+
+            set
+            {
+                _litres = value;
+            }
+        }
+        public int PumpId
+        {
+            get
+            {
+                return _pumpId;
+            }
+
+            set
+            {
+                _pumpId = value;
+            }
+        }
+
+        public Receipt() { }
+    }
+
+    public class PumpInformation
+    {
+        private float[] _litresDispensed;
+        private float[] _amountWon;
+        private float _commission;
+        private int _vehicleCounter;
+        private int _notFullVehicle;
+        private Receipt _receipt;
     }
 }

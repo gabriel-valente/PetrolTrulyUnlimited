@@ -18,7 +18,35 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!--Queue-->
-        <Grid Grid.Column="0" Grid.Row="0" Margin="10,10,10,0" VerticalAlignment="Top" Height="40">
+        <Grid x:Name="Grd_QueueName" Grid.Column="0" Grid.Row="0" Margin="10,10,10,0" VerticalAlignment="Top" Height="40" MouseEnter="Popup_MouseEnter" MouseLeave="Popup_MouseLeave">
+            <Popup Name="Queue_Popup" IsOpen="False" Placement="Relative" PlacementTarget="{Binding ElementName=Grd_QueueName}">
+                <Grid Background="#FF646464" Width="230">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto" MinWidth="65"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Total vehicles: " FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Queue_TotalVehicles" Grid.Row="0" Grid.Column="1" FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label Grid.Row="1" Grid.Column="0" Content="Cars in queue: " FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Queue_QueueLenght" Grid.Row="1" Grid.Column="1" FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label Grid.Row="2" Grid.Column="0" Content="Vehicles to pump: " FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Queue_VehiclesEntered" Grid.Row="2" Grid.Column="1" FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label Grid.Row="3" Grid.Column="0" Content="Vehicles without fueling: " FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Queue_VehiclesRejected" Grid.Row="3" Grid.Column="1" FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label Grid.Row="4" Grid.Column="0" Content="Percentage accepted: " FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Queue_PercentageAccepted" Grid.Row="4" Grid.Column="1" FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5"/>
+                    <Label Grid.Row="5" Grid.Column="0" Content="Percentage rejected: " FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Queue_PercentageRejected" Grid.Row="5" Grid.Column="1" FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                </Grid>
+            </Popup>
             <Rectangle Fill="#FFEEEEEE" RadiusY="10" RadiusX="10" StrokeThickness="0"/>
             <Label Content="Queue" Foreground="#FF454545" FontSize="16" FontWeight="Bold" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0"/>
             <Grid Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0">
