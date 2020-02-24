@@ -18,7 +18,6 @@
             <e p="LPG.cs" t="Include" />
           </e>
           <e p="Station" t="Include">
-            <e p="OLD_Station.cs" t="Include" />
             <e p="Station.cs" t="Include" />
           </e>
           <e p="Vehicle" t="Include">

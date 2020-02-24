@@ -227,6 +227,9 @@ namespace PetrolTrulyUnlimited
         private byte _priority; //Higher priority means a better choice
         private Timer _fuelingTimer = new Timer(); //Fuelling timer
 
+        /// <summary>
+        /// Id of the pump.
+        /// </summary>
         public byte Id 
         {
             get
@@ -239,6 +242,9 @@ namespace PetrolTrulyUnlimited
                 _id = value;
             }
         }
+        /// <summary>
+        /// Types of fuel the pump has.
+        /// </summary>
         public Fuel[] Fuel 
         {
             get
@@ -251,6 +257,9 @@ namespace PetrolTrulyUnlimited
                 _fuel = value;
             }
         }
+        /// <summary>
+        /// Velocity that the pump dispenses the fuel.
+        /// </summary>
         public float Velocity 
         {
             get
@@ -263,6 +272,9 @@ namespace PetrolTrulyUnlimited
                 _velocity = value;
             }
         }
+        /// <summary>
+        /// If the pump is available or occupied.
+        /// </summary>
         public bool Available 
         {
             get
@@ -275,6 +287,9 @@ namespace PetrolTrulyUnlimited
                 _available = value;
             }
         }
+        /// <summary>
+        /// Higher priority means a better choice.
+        /// </summary>
         public byte Priority 
         {
             get
@@ -287,6 +302,9 @@ namespace PetrolTrulyUnlimited
                 _priority = value;
             }
         }
+        /// <summary>
+        /// Fuelling Timer.
+        /// </summary>
         public Timer FuelingTimer 
         {
             get
@@ -303,12 +321,18 @@ namespace PetrolTrulyUnlimited
         public Pump() { }
     }
 
+    /// <summary>
+    /// Basic definition of the QueueInformation popup.
+    /// </summary>
     public class QueueInformation
     {
-        private int _totalVehicles;
-        private int _vehiclesEntered;
-        private int _vehiclesRejected;
+        private int _totalVehicles; //Total number of vehicles that went through
+        private int _vehiclesEntered; //Vehicles that went to fuelling
+        private int _vehiclesRejected; //Vehicles that went out without fuelling
 
+        /// <summary>
+        /// Total number od vehicles that went through.
+        /// </summary>
         public int TotalVehicles
         { 
             get
@@ -321,6 +345,9 @@ namespace PetrolTrulyUnlimited
                 _totalVehicles = value;
             }
         }
+        /// <summary>
+        /// Vehicles that went to fuelling.
+        /// </summary>
         public int VehiclesEntered 
         {
             get
@@ -333,6 +360,9 @@ namespace PetrolTrulyUnlimited
                 _vehiclesEntered = value;
             }
         }
+        /// <summary>
+        /// Vehicles that went out without fuelling.
+        /// </summary>
         public int VehiclesRejected 
         {
             get
@@ -348,13 +378,20 @@ namespace PetrolTrulyUnlimited
 
         public QueueInformation() { }
     }
-
+    
+    /// <summary>
+    /// Basic definition of the receipt.
+    /// </summary>
     public class Receipt
     {
-        private string _vehicleType;
-        private float _litres;
-        private int _pumpId;
+        private string _vehicleType; //Type of the vehicle fuelled
+        private float _litres; //Litres fuelled
+        private int _pumpId; //Pump the vehicle was in
+        private float _cost; //Cost of litres
 
+        /// <summary>
+        /// Type of the vehicle fuelled.
+        /// </summary>
         public string VehicleType
         {
             get
@@ -367,6 +404,9 @@ namespace PetrolTrulyUnlimited
                 _vehicleType = value;
             }
         }
+        /// <summary>
+        /// Litres fuelled.
+        /// </summary>
         public float Litres
         {
             get
@@ -379,6 +419,9 @@ namespace PetrolTrulyUnlimited
                 _litres = value;
             }
         }
+        /// <summary>
+        /// Pump the vehicle was in.
+        /// </summary>
         public int PumpId
         {
             get
@@ -391,17 +434,126 @@ namespace PetrolTrulyUnlimited
                 _pumpId = value;
             }
         }
+        /// <summary>
+        /// Cost of litres.
+        /// </summary>
+        public float Cost
+        {
+            get
+            {
+                return _cost;
+            }
+
+            set
+            {
+                _cost = value;
+            }
+        }
 
         public Receipt() { }
     }
 
+    /// <summary>
+    /// Basic information for the counters of the pump.
+    /// </summary>
     public class PumpInformation
     {
-        private float[] _litresDispensed;
-        private float[] _amountWon;
-        private float _commission;
-        private int _vehicleCounter;
-        private int _notFullVehicle;
-        private Receipt _receipt;
+        private float[] _litresDispensed = { 0f, 0f, 0f }; //Litres dispensed for each fuel
+        private float[] _amountWon = { 0f, 0f, 0f }; //Amout of money won for each fuel
+        private float _commission = 0f; //Commission of that money
+        private int _vehicleCounter = 0; //Vehicles that went through the pump
+        private int _notFullVehicle = 0; //Vehicles that did not totally filled the tank
+        private Receipt _receipt = new Receipt(); //Current Receipt
+
+        /// <summary>
+        /// Litres dispensed for each type of fuel
+        /// </summary>
+        public float[] LitresDispensed
+        {
+            get
+            {
+                return _litresDispensed;
+            }
+
+            set
+            {
+                _litresDispensed = value;
+            }
+        }
+        /// <summary>
+        /// Amount of money won for each type of fuel
+        /// </summary>
+        public float[] AmountWon
+        {
+            get
+            {
+                return _amountWon;
+            }
+
+            set
+            {
+                _amountWon = value;
+            }
+        }
+        /// <summary>
+        /// Commission amount of that money
+        /// </summary>
+        public float Commission
+        {
+            get
+            {
+                return _commission;
+            }
+
+            set
+            {
+                _commission = value;
+            }
+        }
+        /// <summary>
+        /// Vehicles that went through the pump
+        /// </summary>
+        public int VehiclesCounter
+        {
+            get
+            {
+                return _vehicleCounter;
+            }
+
+            set
+            {
+                _vehicleCounter = value;
+            }
+        }
+        /// <summary>
+        /// Vehicles that did not totally filled the tank
+        /// </summary>
+        public int NotFullVehicle
+        {
+            get
+            {
+                return _notFullVehicle;
+            }
+
+            set
+            {
+                _notFullVehicle = value;
+            }
+        }
+        /// <summary>
+        /// Current Receipt
+        /// </summary>
+        public Receipt Receipt
+        {
+            get
+            {
+                return _receipt;
+            }
+
+            set
+            {
+                _receipt = value;
+            }
+        }
     }
 }

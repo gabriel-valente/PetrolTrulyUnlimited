@@ -2,24 +2,30 @@
 {
     public class Station : Pump
     {
+        //Basic information of a pump
         private static readonly Pump basePump = new Pump()
         {
             Velocity = Global.PUMP_VELOCITY,
             Available = true
         };
 
+        //First combination of fuels
         private static Fuel[] fuelCombo1 = new Fuel[]
         {
                 new Diesel(),
                 new Gasoline()
         };
 
+        //Second combination of fuels
         private static Fuel[] fuelCombo2 = new Fuel[]
         {
                 new Diesel(),
                 new Lpg()
         };
-
+        /* Multiple pump definitions
+         * First 3 pumps has the first fuel combo
+         * Rest of pumps have the second fuel combo
+         */
         private static Pump _pump0 = new Pump()
         {
             Id = 1,
@@ -101,6 +107,7 @@
             Priority = 7
         };
 
+        //Seting up the pumps array
         public static Pump[] Pumps = new Pump[]
         {
             _pump0,

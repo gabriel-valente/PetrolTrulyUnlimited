@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PetrolTrulyUnlimited.Entity;
+using System;
 using System.Windows.Media.Animation;
 
 namespace PetrolTrulyUnlimited
@@ -18,7 +19,9 @@ namespace PetrolTrulyUnlimited
 
         public const byte LOWEST_PRIORITY_PUMP = 6;
 
-        static public QueueInformation queueInformation = new QueueInformation();
+        public const int DIESEL_INDEX = 0;
+        public const int GASOLINE_INDEX = 1;
+        public const int LPG_INDEX = 2;
 
         //Animations
         static public DoubleAnimation fadeOut = new DoubleAnimation()
