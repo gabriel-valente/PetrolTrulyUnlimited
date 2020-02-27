@@ -12,7 +12,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" MinWidth="185" MaxWidth="300"/>
             <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*" MinWidth="185" MaxWidth="300"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -33,22 +33,22 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Content="Total vehicles: " FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label x:Name="Lbl_Queue_TotalVehicles" Grid.Row="0" Grid.Column="1" FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label Grid.Row="1" Grid.Column="0" Content="Cars in queue: " FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label x:Name="Lbl_Queue_QueueLenght" Grid.Row="1" Grid.Column="1" FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label Grid.Row="2" Grid.Column="0" Content="Vehicles to pump: " FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label x:Name="Lbl_Queue_VehiclesEntered" Grid.Row="2" Grid.Column="1" FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label Grid.Row="3" Grid.Column="0" Content="Vehicles without fueling: " FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label x:Name="Lbl_Queue_VehiclesRejected" Grid.Row="3" Grid.Column="1" FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label Grid.Row="4" Grid.Column="0" Content="Percentage accepted: " FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label x:Name="Lbl_Queue_PercentageAccepted" Grid.Row="4" Grid.Column="1" FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5"/>
-                    <Label Grid.Row="5" Grid.Column="0" Content="Percentage rejected: " FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label x:Name="Lbl_Queue_PercentageRejected" Grid.Row="5" Grid.Column="1" FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Total vehicles: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Queue_TotalVehicles" Grid.Row="0" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label Grid.Row="1" Grid.Column="0" Content="Cars in queue: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Queue_QueueLenght" Grid.Row="1" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label Grid.Row="2" Grid.Column="0" Content="Vehicles to pump: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Queue_VehiclesEntered" Grid.Row="2" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label Grid.Row="3" Grid.Column="0" Content="Vehicles without fueling: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Queue_VehiclesRejected" Grid.Row="3" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label Grid.Row="4" Grid.Column="0" Content="Percentage accepted: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Queue_PercentageAccepted" Grid.Row="4" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5"/>
+                    <Label Grid.Row="5" Grid.Column="0" Content="Percentage rejected: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Queue_PercentageRejected" Grid.Row="5" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
                 </Grid>
             </Popup>
             <Rectangle Fill="#FFEEEEEE" RadiusY="10" RadiusX="10" StrokeThickness="0"/>
-            <Label Content="Queue" Foreground="#FF454545" FontSize="16" FontWeight="Bold" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0"/>
+            <Label Content="Queue" Foreground="#FF454545" FontSize="16" FontWeight="Bold" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0"/>
             <Grid Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -137,23 +137,23 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Content="Total litres: " FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label x:Name="Lbl_Pump_TotalLitres" Grid.Row="0" Grid.Column="1" FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label Grid.Row="1" Grid.Column="0" Content="Amount won: " FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label x:Name="Lbl_Pump_AmountWon" Grid.Row="1" Grid.Column="1" FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label Grid.Row="2" Grid.Column="0" Content="Commission: " FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label x:Name="Lbl_Pump_Commission" Grid.Row="2" Grid.Column="1" FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label Grid.Row="3" Grid.Column="0" Content="Total vehicles: " FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label x:Name="Lbl_Pump_VehicleCounter" Grid.Row="3" Grid.Column="1" FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label Grid.Row="4" Grid.Column="0" Content="Vehicles not full: " FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label x:Name="Lbl_Pump_NotFullVehicles" Grid.Row="4" Grid.Column="1" FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5"/>
-                    <Label Grid.Row="5" Grid.Column="0" Content="Receipt " FontWeight="Bold" FontSize="20" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label Grid.Row="6" Grid.Column="0" Content="Vehicle Type: " FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label x:Name="Lbl_Pump_VehicleType" Grid.Row="6" Grid.Column="1" FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label Grid.Row="7" Grid.Column="0" Content="Litres: " FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label x:Name="Lbl_Pump_Litres" Grid.Row="7" Grid.Column="1" FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label Grid.Row="8" Grid.Column="0" Content="Final Cost: " FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label x:Name="Lbl_Pump_Cost" Grid.Row="8" Grid.Column="1" FontSize="14" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Total litres: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Pump_TotalLitres" Grid.Row="0" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label Grid.Row="1" Grid.Column="0" Content="Amount won: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Pump_AmountWon" Grid.Row="1" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label Grid.Row="2" Grid.Column="0" Content="Commission: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Pump_Commission" Grid.Row="2" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label Grid.Row="3" Grid.Column="0" Content="Total vehicles: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Pump_VehicleCounter" Grid.Row="3" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label Grid.Row="4" Grid.Column="0" Content="Vehicles not full: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Pump_NotFullVehicles" Grid.Row="4" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5"/>
+                    <Label Grid.Row="5" Grid.Column="0" Content="Receipt " FontWeight="Bold" FontSize="20" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label Grid.Row="6" Grid.Column="0" Content="Vehicle Type: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Pump_VehicleType" Grid.Row="6" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label Grid.Row="7" Grid.Column="0" Content="Litres: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Pump_Litres" Grid.Row="7" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label Grid.Row="8" Grid.Column="0" Content="Final Cost: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Pump_Cost" Grid.Row="8" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
                 </Grid>
             </Popup> 
 
@@ -193,7 +193,7 @@
                 </Rectangle>
             </Grid>
             <Rectangle Grid.Row="1" Grid.Column="0" Fill="#FF37BF56" RadiusY="10" RadiusX="10" StrokeThickness="0" Margin="10,0,10,10"/>
-            <Label Grid.Row="1" Grid.Column="0" Content="Pump 1" FontSize="16" FontWeight="Bold" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="10,0,10,10" Tag="0" MouseEnter="Pump_MouseEnter" MouseLeave="Pump_MouseLeave"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="Pump 1" FontSize="16" FontWeight="Bold" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="10,0,10,10" Tag="0" MouseEnter="Pump_MouseEnter" MouseLeave="Pump_MouseLeave"/>
 
             <Grid Grid.Row="0" Grid.Column="1" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
                 <Grid.RenderTransform>
@@ -230,7 +230,7 @@
                 </Rectangle>
             </Grid>
             <Rectangle Grid.Row="1" Grid.Column="1" Fill="#FF37BF56" RadiusY="10" RadiusX="10" StrokeThickness="0" Margin="10,0,10,10"/>
-            <Label Grid.Row="1" Grid.Column="1" Content="Pump 2" FontSize="16" FontWeight="Bold" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="10,0,10,10" Tag="1" MouseEnter="Pump_MouseEnter" MouseLeave="Pump_MouseLeave"/>
+            <Label Grid.Row="1" Grid.Column="1" Content="Pump 2" FontSize="16" FontWeight="Bold" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="10,0,10,10" Tag="1" MouseEnter="Pump_MouseEnter" MouseLeave="Pump_MouseLeave"/>
 
             <Grid Grid.Row="0" Grid.Column="2" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
                 <Grid.RenderTransform>
@@ -267,7 +267,7 @@
                 </Rectangle>
             </Grid>
             <Rectangle Grid.Row="1" Grid.Column="2" Fill="#FF37BF56" RadiusY="10" RadiusX="10" StrokeThickness="0" Margin="10,0,10,10"/>
-            <Label Grid.Row="1" Grid.Column="2" Content="Pump 3" FontSize="16" FontWeight="Bold" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="10,0,10,10" Tag="2" MouseEnter="Pump_MouseEnter" MouseLeave="Pump_MouseLeave"/>
+            <Label Grid.Row="1" Grid.Column="2" Content="Pump 3" FontSize="16" FontWeight="Bold" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="10,0,10,10" Tag="2" MouseEnter="Pump_MouseEnter" MouseLeave="Pump_MouseLeave"/>
 
             <Rectangle Grid.Row="2" Grid.ColumnSpan="3" Fill="#FFEEEEEE" RadiusY="10" RadiusX="10" StrokeThickness="0" Margin="15"/>
             <Grid Grid.Row="2" Grid.Column="0" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
@@ -305,7 +305,7 @@
                 </Rectangle>
             </Grid>
             <Rectangle Grid.Row="3" Grid.Column="0" Fill="#FF37BF56" RadiusY="10" RadiusX="10" StrokeThickness="0" Margin="10,0,10,10"/>
-            <Label Grid.Row="3" Grid.Column="0" Content="Pump 4" FontSize="16" FontWeight="Bold" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="10,0,10,10" Tag="3" MouseEnter="Pump_MouseEnter" MouseLeave="Pump_MouseLeave"/>
+            <Label Grid.Row="3" Grid.Column="0" Content="Pump 4" FontSize="16" FontWeight="Bold" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="10,0,10,10" Tag="3" MouseEnter="Pump_MouseEnter" MouseLeave="Pump_MouseLeave"/>
             <Grid Grid.Row="2" Grid.Column="1" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
                 <Grid.RenderTransform>
                     <TransformGroup>
@@ -341,7 +341,7 @@
                 </Rectangle>
             </Grid>
             <Rectangle Grid.Row="3" Grid.Column="1" Fill="#FF37BF56" RadiusY="10" RadiusX="10" StrokeThickness="0" Margin="10,0,10,10"/>
-            <Label Grid.Row="3" Grid.Column="1" Content="Pump 5" FontSize="16" FontWeight="Bold" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="10,0,10,10" Tag="4" MouseEnter="Pump_MouseEnter" MouseLeave="Pump_MouseLeave"/>
+            <Label Grid.Row="3" Grid.Column="1" Content="Pump 5" FontSize="16" FontWeight="Bold" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="10,0,10,10" Tag="4" MouseEnter="Pump_MouseEnter" MouseLeave="Pump_MouseLeave"/>
             <Grid Grid.Row="2" Grid.Column="2" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
                 <Grid.RenderTransform>
                     <TransformGroup>
@@ -377,7 +377,7 @@
                 </Rectangle>
             </Grid>
             <Rectangle Grid.Row="3" Grid.Column="2" Fill="#FF37BF56" RadiusY="10" RadiusX="10" StrokeThickness="0" Margin="10,0,10,10"/>
-            <Label Grid.Row="3" Grid.Column="2" Content="Pump 6" FontSize="16" FontWeight="Bold" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="10,0,10,10" Tag="5" MouseEnter="Pump_MouseEnter" MouseLeave="Pump_MouseLeave"/>
+            <Label Grid.Row="3" Grid.Column="2" Content="Pump 6" FontSize="16" FontWeight="Bold" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="10,0,10,10" Tag="5" MouseEnter="Pump_MouseEnter" MouseLeave="Pump_MouseLeave"/>
 
             <Rectangle Grid.Row="4" Grid.ColumnSpan="3" Fill="#FFEEEEEE" RadiusY="10" RadiusX="10" StrokeThickness="0" Margin="15"/>
             <Grid Grid.Row="4" Grid.Column="0" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
@@ -415,7 +415,7 @@
                 </Rectangle>
             </Grid>
             <Rectangle Grid.Row="5" Grid.Column="0" Fill="#FF37BF56" RadiusY="10" RadiusX="10" StrokeThickness="0" Margin="10,0,10,10"/>
-            <Label Grid.Row="5" Grid.Column="0" Content="Pump 7" FontSize="16" FontWeight="Bold" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="10,0,10,10" Tag="6" MouseEnter="Pump_MouseEnter" MouseLeave="Pump_MouseLeave"/>
+            <Label Grid.Row="5" Grid.Column="0" Content="Pump 7" FontSize="16" FontWeight="Bold" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="10,0,10,10" Tag="6" MouseEnter="Pump_MouseEnter" MouseLeave="Pump_MouseLeave"/>
             <Grid Grid.Row="4" Grid.Column="1" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
                 <Grid.RenderTransform>
                     <TransformGroup>
@@ -451,7 +451,7 @@
                 </Rectangle>
             </Grid>
             <Rectangle Grid.Row="5" Grid.Column="1" Fill="#FF37BF56" RadiusY="10" RadiusX="10" StrokeThickness="0" Margin="10,0,10,10"/>
-            <Label Grid.Row="5" Grid.Column="1" Content="Pump 8" FontSize="16" FontWeight="Bold" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="10,0,10,10" Tag="7" MouseEnter="Pump_MouseEnter" MouseLeave="Pump_MouseLeave"/>
+            <Label Grid.Row="5" Grid.Column="1" Content="Pump 8" FontSize="16" FontWeight="Bold" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="10,0,10,10" Tag="7" MouseEnter="Pump_MouseEnter" MouseLeave="Pump_MouseLeave"/>
             <Grid Grid.Row="4" Grid.Column="2" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
                 <Grid.RenderTransform>
                     <TransformGroup>
@@ -487,8 +487,42 @@
                 </Rectangle>
             </Grid>
             <Rectangle Grid.Row="5" Grid.Column="2" Fill="#FF37BF56" RadiusY="10" RadiusX="10" StrokeThickness="0" Margin="10,0,10,10"/>
-            <Label Grid.Row="5" Grid.Column="2" Content="Pump 9" FontSize="16" FontWeight="Bold" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="10,0,10,10" Tag="8" MouseEnter="Pump_MouseEnter" MouseLeave="Pump_MouseLeave"/>
+            <Label Grid.Row="5" Grid.Column="2" Content="Pump 9" FontSize="16" FontWeight="Bold" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="10,0,10,10" Tag="8" MouseEnter="Pump_MouseEnter" MouseLeave="Pump_MouseLeave"/>
         </Grid>
-        <!--Buttons-->
+        
+        <!--Final-->
+        <Grid Grid.Column="2" Grid.Row="0" Margin="10,10,10,0" VerticalAlignment="Top" Height="40">
+            <Rectangle Fill="#FFEEEEEE" RadiusY="10" RadiusX="10" StrokeThickness="0"/>
+            <Label Content="Receipts" Foreground="#FF454545" FontSize="16" FontWeight="Bold" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0"/>
+            <Grid Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0">
+                <Image Source="Image/invoice.png" Margin="5"/>
+            </Grid>
+            <Grid Background="Transparent" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">
+                <Image Source="Image/invoice.png" Margin="5"/>
+            </Grid>
+        </Grid>
+
+        <ListBox x:Name="Lst_Receipts" Grid.Row="0" Grid.Column="2" Background="{x:Null}" Margin="10,60,10,60" ScrollViewer.CanContentScroll="False" Foreground="#FFEEEEEE" BorderThickness="0" HorizontalContentAlignment="Stretch" Padding="0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Content="{Binding VehicleType}" ContentStringFormat="Vehicle: {0}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5"/>
+                        <Label Grid.Row="1" Grid.Column="0" Content="{Binding PumpId}" ContentStringFormat="Pump: {0}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5"/>
+                        <Label Grid.Row="0" Grid.Column="1" Content="{Binding Litres}" ContentStringFormat="Litres: {0:F2}L" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5"/>
+                        <Label Grid.Row="1" Grid.Column="1" Content="{Binding Cost}" ContentStringFormat="Cost: {0:F2}£" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Button x:Name="Btn_Settings" Grid.Row="0" Grid.Column="2" Content="Settings" Height="40" Margin="10" VerticalAlignment="Bottom" FontSize="14" Click="Btn_Settings_Click"/>
     </Grid>
 </Page>

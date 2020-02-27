@@ -555,5 +555,7 @@ namespace PetrolTrulyUnlimited
                 _receipt = value;
             }
         }
+
+        public PumpInformation() { }
     }
 }

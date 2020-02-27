@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -20,37 +21,31 @@ namespace PetrolTrulyUnlimited
 {
     public partial class Main : Page
     {
-        private static readonly PumpInformation bluePrintPumpInfo = new PumpInformation()
-        {
-            LitresDispensed = new[]
-            {
-                0f,
-                0f,
-                0f
-            },
-            AmountWon = new[]
-            {
-                0f,
-                0f,
-                0f
-            },
-            Commission = 0f,
-            VehiclesCounter = 0,
-            NotFullVehicle = 0,
-            Receipt = new Receipt()
-        };
         private List<Vehicle> vehiclesQueue = new List<Vehicle>(); //List of Queued vehicles
         private List<Vehicle> vehiclesPump = new List<Vehicle>(); //List of vehicles in the pump
         private List<Receipt> receipts = new List<Receipt>(); //List of receipts of the pumps
 
         private QueueInformation queueInformation = new QueueInformation(); //Variable of information in queue popup
-        private PumpInformation[] pumpInformation = new PumpInformation[9]; //Array of information in pump popup
+        private PumpInformation[] pumpInformation = 
+        {
+            new PumpInformation(),
+            new PumpInformation(),
+            new PumpInformation(),
+            new PumpInformation(),
+            new PumpInformation(),
+            new PumpInformation(),
+            new PumpInformation(),
+            new PumpInformation(),
+            new PumpInformation()
+        }; //Array of information in pump popup
 
         private int spawnInterval; //Seconds for each spawn
 
         private Random rnd = new Random(); //Get random time
         private Timer spawnTimer = new Timer(); //Declaration of timer
         private Timer checkTimer = new Timer(); //Declaration of timer
+
+        Label popupLabel;
 
         public Main()
         {
@@ -67,6 +62,8 @@ namespace PetrolTrulyUnlimited
             checkTimer.Interval = 100;
             checkTimer.Elapsed += new ElapsedEventHandler(AssignVehicleToPump);
             checkTimer.Enabled = true;
+
+            Lst_Receipts.ItemsSource = receipts;
         }
 
         /// <summary>
@@ -138,7 +135,7 @@ namespace PetrolTrulyUnlimited
         /// </summary>
         private void QueueLengthChecker()
         {
-            if (vehiclesQueue.Count < 5)
+            if (vehiclesQueue.Count < Global.MAX_QUEUE_SIZE)
             {
                 spawnTimer.Start();
             }
@@ -147,7 +144,7 @@ namespace PetrolTrulyUnlimited
                 spawnTimer.Stop();
             }
 
-            if (vehiclesQueue.Count > 0 && vehiclesQueue.Count <= 5)
+            if (vehiclesQueue.Count > 0 && vehiclesQueue.Count <= Global.MAX_QUEUE_SIZE)
             {
                 checkTimer.Start();
             }
@@ -402,6 +399,7 @@ namespace PetrolTrulyUnlimited
         /// <param name="vehicleId">ID of the vehicle.</param>
         private void Fuelling(byte pumpId, int vehicleId)
         {
+            PumpInformation pumpTempInfo = pumpInformation[pumpId - 1];
             Vehicle vehicle = vehiclesPump.Find(_ => _.Id == vehicleId); //Finds the vehicle that is fuelling
             Pump pump = Station.Pumps.First(_ => _.Id == pumpId); //Finds the pump the car is in
             float toFill = vehicle.Capacity - vehicle.Litres; //Calculates how much litres needs to fill
@@ -410,7 +408,7 @@ namespace PetrolTrulyUnlimited
             if (fuelingTime > Global.MAX_FUELLING_TIME) //If the time is higher than the maximum time
             {
                 fuelingTime = Global.MAX_FUELLING_TIME; //sets the time to the maximum time
-                pumpInformation[pumpId - 1].NotFullVehicle++;
+                pumpTempInfo.NotFullVehicle++;
             }
 
             Receipt receipt = new Receipt() {
@@ -420,38 +418,43 @@ namespace PetrolTrulyUnlimited
                 Cost = (Global.PUMP_VELOCITY * (fuelingTime / 1000)) * vehicle.FuelType.Price
             };
 
+
             if (vehicle.FuelType.Type == "Diesel")
             {
                 Diesel diesel = new Diesel();
 
-                pumpInformation[pumpId - 1].LitresDispensed[Global.DIESEL_INDEX] += receipt.Litres;
-                pumpInformation[pumpId - 1].AmountWon[Global.DIESEL_INDEX] += receipt.Litres * diesel.Price;
+                pumpTempInfo.LitresDispensed[Global.DIESEL_INDEX] += receipt.Litres;
+                pumpTempInfo.AmountWon[Global.DIESEL_INDEX] += receipt.Litres * diesel.Price;
             }
             else if (vehicle.FuelType.Type == "Gasoline")
             {
                 Gasoline gasoline = new Gasoline();
 
-                pumpInformation[pumpId - 1].LitresDispensed[Global.GASOLINE_INDEX] += receipt.Litres;
-                pumpInformation[pumpId - 1].AmountWon[Global.GASOLINE_INDEX] += receipt.Litres * gasoline.Price;
+                pumpTempInfo.LitresDispensed[Global.GASOLINE_INDEX] += receipt.Litres;
+                pumpTempInfo.AmountWon[Global.GASOLINE_INDEX] += receipt.Litres * gasoline.Price;
             }
             else if (vehicle.FuelType.Type == "LPG")
             {
                 Lpg lpg = new Lpg();
 
-                pumpInformation[pumpId - 1].LitresDispensed[Global.LPG_INDEX] += receipt.Litres;
-                pumpInformation[pumpId - 1].AmountWon[Global.LPG_INDEX] += receipt.Litres * lpg.Price;
+                pumpTempInfo.LitresDispensed[Global.LPG_INDEX] += receipt.Litres;
+                pumpTempInfo.AmountWon[Global.LPG_INDEX] += receipt.Litres * lpg.Price;
             }
 
             float totalWon = 0;
 
-            foreach (float item in pumpInformation[pumpId - 1].AmountWon)
+            foreach (float item in pumpTempInfo.AmountWon)
             {
                 totalWon += item;
             }
 
-            pumpInformation[pumpId - 1].Commission = totalWon * 0.01f;
-            pumpInformation[pumpId - 1].VehiclesCounter++;
-            pumpInformation[pumpId - 1].Receipt = receipt;
+            pumpTempInfo.Commission = totalWon * 0.01f;
+            pumpTempInfo.VehiclesCounter++;
+            pumpTempInfo.Receipt = receipt;
+
+            pumpInformation[pumpId - 1] = pumpTempInfo;
+
+            PumpPopup();
 
             //Sets up the fuelling timer
             pump.FuelingTimer.Interval = fuelingTime;
@@ -460,6 +463,12 @@ namespace PetrolTrulyUnlimited
                 Dispatcher.InvokeAsync(() =>
                 {
                     UpdateVehicleImage(vehicleId, "Pump"); //Updates the UI
+
+                    receipts.Insert(0, receipt);
+                    UpdateReceipts();
+
+                    pumpInformation[pumpId - 1].Receipt = new Receipt();
+                    PumpPopup();
                 });
                 pump.FuelingTimer.Close();
             };
@@ -468,6 +477,14 @@ namespace PetrolTrulyUnlimited
 
             Station.Pumps.First(_ => _.Id == pumpId).FuelingTimer = pump.FuelingTimer; //Assigns the created timer to the pump timer
             Station.Pumps.First(_ => _.Id == pumpId).FuelingTimer.Start(); //Starts the timer
+        }
+
+        /// <summary>
+        /// Refreshes the UI of the receipts
+        /// </summary>
+        private void UpdateReceipts()
+        {
+            Lst_Receipts.Items.Refresh();
         }
 
         //Popup when mouse goes over the Queue label
@@ -500,14 +517,13 @@ namespace PetrolTrulyUnlimited
             {
                 Pump_Popup.IsOpen = true;
 
-                Label label = (Label)sender;
+                popupLabel = (Label)sender;
 
                 var mousePosition = e.GetPosition(Grd_Pumps); //Gets mouse position
                 Pump_Popup.HorizontalOffset = mousePosition.X; //Sets the X axis
                 Pump_Popup.VerticalOffset = mousePosition.Y; //Sets the Y axis
 
-                PumpPopup(Convert.ToInt32(label.Tag.ToString())); //Updates the popup
-                Console.WriteLine(Convert.ToInt32(label.Tag.ToString()));
+                PumpPopup(); //Updates the popup
             }
         }
 
@@ -552,11 +568,12 @@ namespace PetrolTrulyUnlimited
         /// <summary>
         /// Updates the information in the pump popup.
         /// </summary>
-        /// <param name="pump">Position of the pump in array.</param>
-        private void PumpPopup(int pump)
+        private void PumpPopup()
         {
+
             if (Pump_Popup.IsOpen) //If popup is open
             {
+                int pump = Convert.ToInt32(popupLabel.Tag.ToString());
                 float totalLitres = 0;
                 float totalAmount = 0;
 
@@ -582,5 +599,9 @@ namespace PetrolTrulyUnlimited
             }
         }
 
+        private void Btn_Settings_Click(object sender, RoutedEventArgs e)
+        {
+            ((MainWindow)Application.Current.MainWindow).Frm_Main.Content = new Settings();
+        }
     }
 }

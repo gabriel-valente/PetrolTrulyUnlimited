@@ -24,7 +24,7 @@ namespace PetrolTrulyUnlimited
         {
             InitializeComponent();
 
-            Frm_Main.Content = new Main();
+            Frm_Main.Content = new Main();           
         }
     }
 }

@@ -13,6 +13,7 @@
         <!--Style Label-->
         <Style TargetType="{x:Type Label}">
             <Setter Property="Control.Foreground" Value="#FFEEEEEE"/>
+            <Setter Property="FontFamily" Value="Microsoft Sans Serif"/>
         </Style>
 
         <!--Style ScrollBar-->
@@ -90,6 +91,42 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+        </Style>
+
+        <!--Style Button-->
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Control.Foreground" Value="#FFEEEEEE"/>
+            <Setter Property="Background" Value="#FF666666"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontFamily" Value="Microsoft Sans Serif"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ButtonBase}">
+                        <Border x:Name="button" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="button" Value="#FF333333"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="button" Value="#FF222222"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" TargetName="button" Value="#FFAAAAAA"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--Style TextBox-->
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Control.Foreground" Value="#FFEEEEEE"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="#FF666666"/>
+            <Setter Property="FontFamily" Value="Microsoft Sans Serif"/>
         </Style>
     </Application.Resources>
 </Application>
