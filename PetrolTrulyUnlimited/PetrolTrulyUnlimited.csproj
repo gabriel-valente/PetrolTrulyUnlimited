@@ -110,6 +110,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -120,15 +121,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Image\car.png" />
-    <Content Include="Image\car.svg" />
-    <Resource Include="Image\lorry.png" />
     <Resource Include="Image\invoice.png" />
-    <Content Include="Image\invoice.svg" />
-    <Content Include="Image\lorry.svg" />
-    <Resource Include="Image\van.png" />
-    <Content Include="Image\van.svg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Image\Car_Diesel.png" />
+    <Resource Include="Image\Car_Gasoline.png" />
+    <Resource Include="Image\Car_Lpg.png" />
+    <Resource Include="Image\Lorry_Diesel.png" />
+    <Resource Include="Image\Lorry_Gasoline.png" />
+    <Resource Include="Image\Lorry_Lpg.png" />
+    <Resource Include="Image\Van_Diesel.png" />
+    <Resource Include="Image\Van_Gasoline.png" />
+    <Resource Include="Image\Van_Lpg.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

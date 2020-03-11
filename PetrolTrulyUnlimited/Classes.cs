@@ -1,4 +1,5 @@
-﻿using System.Timers;
+﻿using PetrolTrulyUnlimited.Entity;
+using System.Timers;
 
 namespace PetrolTrulyUnlimited
 {
@@ -124,6 +125,31 @@ namespace PetrolTrulyUnlimited
         }
 
         public Vehicle() { }
+
+        public static Fuel[] SetFuelType(string fuel)
+        {
+            char[] combo = fuel.ToCharArray();
+
+            Fuel[] fuels = new Fuel[combo.Length];
+
+            for (int i = 0; i < combo.Length; i++)
+            {
+                if (combo[i] == '0')
+                {
+                    fuels[i] = new Diesel();
+                }
+                else if (combo[i] == '1')
+                {
+                    fuels[i] = new Gasoline();
+                }
+                else if (combo[i] == '2')
+                {
+                    fuels[i] = new Lpg();
+                }
+            }
+
+            return fuels;
+        }
 
         /// <summary>
         /// Get the next vehicle Id.

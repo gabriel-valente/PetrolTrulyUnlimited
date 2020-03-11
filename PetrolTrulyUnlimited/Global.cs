@@ -1,5 +1,6 @@
-﻿using PetrolTrulyUnlimited.Entity;
-using System;
+﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Windows.Media.Animation;
 
 namespace PetrolTrulyUnlimited
@@ -21,11 +22,21 @@ namespace PetrolTrulyUnlimited
 
         static public int MAX_QUEUE_SIZE = 5;
 
+        static public string CAR_FUEL = "123";
+        static public string VAN_FUEL = "12";
+        static public string LORRY_FUEL = "1";
+
         //Constants
         public const byte LOWEST_PRIORITY_PUMP = 6;
         public const int DIESEL_INDEX = 0;
         public const int GASOLINE_INDEX = 1;
         public const int LPG_INDEX = 2;
+
+        //Files
+        public const string DIRECTORY = "Data";
+        public const string DIRECTORY_RECEIPTS = "Receipts";
+        public const string FILELOCATION_DEFAULTVALUES = DIRECTORY + "\\Default.dat";
+        public const string FILELOCATION_CURRENTVALUES = DIRECTORY + "\\Current.dat";
 
         //Animations
         static public DoubleAnimation fadeOut = new DoubleAnimation()
@@ -41,5 +52,11 @@ namespace PetrolTrulyUnlimited
             To = 1,
             Duration = TimeSpan.FromMilliseconds(ANIMATION_TIME)
         };
+
+        static public void SetAnimationTime()
+        {
+            fadeOut.Duration = TimeSpan.FromMilliseconds(ANIMATION_TIME);
+            fadeIn.Duration = TimeSpan.FromMilliseconds(ANIMATION_TIME);
+        }
     }
 }

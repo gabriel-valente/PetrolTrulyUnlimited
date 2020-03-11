@@ -128,5 +128,10 @@
             <Setter Property="Background" Value="#FF666666"/>
             <Setter Property="FontFamily" Value="Microsoft Sans Serif"/>
         </Style>
+
+        <!--Style TextBlock-->
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="Microsoft Sans Serif"/>
+        </Style>
     </Application.Resources>
 </Application>

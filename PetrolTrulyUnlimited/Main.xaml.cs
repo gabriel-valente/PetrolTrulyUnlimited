@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using PetrolTrulyUnlimited.Entity;
 
 namespace PetrolTrulyUnlimited
@@ -23,7 +17,7 @@ namespace PetrolTrulyUnlimited
     {
         private List<Vehicle> vehiclesQueue = new List<Vehicle>(); //List of Queued vehicles
         private List<Vehicle> vehiclesPump = new List<Vehicle>(); //List of vehicles in the pump
-        private List<Receipt> receipts = new List<Receipt>(); //List of receipts of the pumps
+        static public List<Receipt> receipts = new List<Receipt>(); //List of receipts of the pumps
 
         private QueueInformation queueInformation = new QueueInformation(); //Variable of information in queue popup
         private PumpInformation[] pumpInformation = 
@@ -45,25 +39,26 @@ namespace PetrolTrulyUnlimited
         private Timer spawnTimer = new Timer(); //Declaration of timer
         private Timer checkTimer = new Timer(); //Declaration of timer
 
-        Label popupLabel;
+        Label popupLabel = new Label();
 
         public Main()
         {
             InitializeComponent();
 
+            Lst_Receipts.ItemsSource = receipts;
+
             //Spawn Timer Parameters
             spawnInterval = rnd.Next(Global.MIN_SPAWN_TIME, Global.MAX_SPAWN_TIME);
             spawnTimer.Interval = spawnInterval;
             spawnTimer.Elapsed += new ElapsedEventHandler(Spawner);
+            spawnTimer.AutoReset = true;
             spawnTimer.Enabled = true;
             spawnTimer.Start();
 
-            //Spawn Timer Parameters
+            //Check Timer Parameters
             checkTimer.Interval = 100;
             checkTimer.Elapsed += new ElapsedEventHandler(AssignVehicleToPump);
             checkTimer.Enabled = true;
-
-            Lst_Receipts.ItemsSource = receipts;
         }
 
         /// <summary>
@@ -74,11 +69,10 @@ namespace PetrolTrulyUnlimited
         private void Spawner(object _, EventArgs __)
         {
             int spawnInterval = rnd.Next(Global.MIN_SPAWN_TIME, Global.MAX_SPAWN_TIME); //Generates a random time
-            
-            CreateVehicle(); //Creates a new vehicle
 
             spawnTimer.Interval = spawnInterval; //Sets the time
 
+            CreateVehicle(); //Creates a new vehicle
             QueueLengthChecker(); //Checks id the timer should run
         }
 
@@ -124,10 +118,10 @@ namespace PetrolTrulyUnlimited
 
             Dispatcher.InvokeAsync(() =>
             {
-                AddVehicleImage(vehicle.Id, vehicle.Type, "Queue"); //Adds vehicle image in queue
+                AddVehicleImage(vehicle.Id, vehicle.Type, vehicle.FuelType.Type, "Queue"); //Adds vehicle image in queue
             });
 
-            AssignVehicleToPump(null, null); //Checks if any vehicle can go in a pump
+            AssignVehicleToPump(); //Checks if any vehicle can go in a pump
         }
 
         /// <summary>
@@ -161,7 +155,7 @@ namespace PetrolTrulyUnlimited
         /// <param name="type">Type of vehicle to display.</param>
         /// <param name="place">If its in the Queue or Pump.</param>
         /// <param name="pump">Pump number, can be null.</param>
-        private void AddVehicleImage(int id, string type, string place, int? pump = null)
+        private void AddVehicleImage(int id, string type, string fuel, string place, int? pump = null)
         {
             string name = string.Format("Img_{0}_{1}", place, id); //Variable with the image element name
 
@@ -173,18 +167,7 @@ namespace PetrolTrulyUnlimited
                 Margin = new Thickness(20, 5, 20, 5)
             };
 
-            if (type == "Car")
-            {
-                image.Source = new BitmapImage(new Uri("Image/car.png", UriKind.Relative)); //Car image
-            }
-            else if (type == "Van")
-            {
-                image.Source = new BitmapImage(new Uri("Image/van.png", UriKind.Relative)); //Van image
-            }
-            else if (type == "Lorry")
-            {
-                image.Source = new BitmapImage(new Uri("Image/lorry.png", UriKind.Relative)); //Lorry image
-            }
+            image.Source = new BitmapImage(new Uri(string.Format("Image/{0}_{1}.png", type, fuel), UriKind.Relative));
 
             if (place == "Queue")
             {
@@ -194,45 +177,11 @@ namespace PetrolTrulyUnlimited
             }
             else if (place == "Pump")
             {
-                switch (pump) //Selects place to put image in pump
-                {
-                    case 0:
-                        Grid.SetRow(image, 0);
-                        Grid.SetColumn(image, 0);
-                        break;
-                    case 1:
-                        Grid.SetRow(image, 0);
-                        Grid.SetColumn(image, 1);
-                        break;
-                    case 2:
-                        Grid.SetRow(image, 0);
-                        Grid.SetColumn(image, 2);
-                        break;
-                    case 3:
-                        Grid.SetRow(image, 2);
-                        Grid.SetColumn(image, 0);
-                        break;
-                    case 4:
-                        Grid.SetRow(image, 2);
-                        Grid.SetColumn(image, 1);
-                        break;
-                    case 5:
-                        Grid.SetRow(image, 2);
-                        Grid.SetColumn(image, 2);
-                        break;
-                    case 6:
-                        Grid.SetRow(image, 4);
-                        Grid.SetColumn(image, 0);
-                        break;
-                    case 7:
-                        Grid.SetRow(image, 4);
-                        Grid.SetColumn(image, 1);
-                        break;
-                    case 8:
-                        Grid.SetRow(image, 4);
-                        Grid.SetColumn(image, 2);
-                        break;
-                }
+                int x = (int)pump % 3;
+                int y = (int)(pump / 3) * 2;
+
+                Grid.SetColumn(image, x);
+                Grid.SetRow(image, y);
 
                 Grd_Pumps.Children.Add(image); //Adds image to pump
 
@@ -261,7 +210,7 @@ namespace PetrolTrulyUnlimited
         /// <param name="place">If it is in the Queue or Pump.</param>
         /// <param name="type">Type of vehicle to add.</param>
         /// <param name="location">Location in the pump.</param>
-        private void UpdateVehicleImage(int id, string place, string type = null, byte? location = null)
+        private void UpdateVehicleImage(int id, string place, string type = null, string fuel = null, byte? location = null)
         {
             string name = string.Format("Img_{0}_{1}", place, id); //Variable with the image element name
             UIElement element;
@@ -288,7 +237,7 @@ namespace PetrolTrulyUnlimited
 
                         queueInformation.VehiclesEntered++; //Updates the information in queue information
 
-                        AddVehicleImage(id, type, "Pump", location); //Adds the vehicle to the pump
+                        AddVehicleImage(id, type, fuel, "Pump", location); //Adds the vehicle to the pump
                     }
                     else
                     {
@@ -333,7 +282,7 @@ namespace PetrolTrulyUnlimited
         /// </summary>
         /// <param name="_">object timer.</param>
         /// <param name="__">EventArgs timer.</param>
-        private void AssignVehicleToPump(object _, EventArgs __)
+        private void AssignVehicleToPump(object _ = null, EventArgs __ = null)
         {
             foreach (Vehicle vehicle in vehiclesQueue) //Get a pump for each vehicle in the line
             {
@@ -352,7 +301,6 @@ namespace PetrolTrulyUnlimited
                                 //(i + 1) % 3 == 0 Check if it is the last pump in the line
                                 //(i + 2) % 3 == 0 Check if it is the middle pump in the line
                                 //(i + 3) % 3 == 0 Check if it is the first pump in the line
-
                                 if ((i + 1) % 3 == 0 && Station.Pumps[i - 1].Available && Station.Pumps[i - 2].Available)
                                 {
                                     bestAvailable = (byte)i;
@@ -384,7 +332,7 @@ namespace PetrolTrulyUnlimited
                     //Update UI
                     Dispatcher.InvokeAsync(() =>
                     {
-                        UpdateVehicleImage(vehicle.Id, "Queue", vehicle.Type, bestAvailable);
+                        UpdateVehicleImage(vehicle.Id, "Queue", vehicle.Type, vehicle.FuelType.Type, bestAvailable);
                     });
                 }
             }
@@ -485,6 +433,8 @@ namespace PetrolTrulyUnlimited
         private void UpdateReceipts()
         {
             Lst_Receipts.Items.Refresh();
+
+            Console.WriteLine(receipts.Count);
         }
 
         //Popup when mouse goes over the Queue label
