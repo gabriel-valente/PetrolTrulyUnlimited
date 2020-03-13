@@ -1,6 +1,8 @@
 ﻿using PetrolTrulyUnlimited.Entity;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -69,11 +71,12 @@ namespace PetrolTrulyUnlimited
             InitializeComponent();
 
             AssignValues();
+            UpdateStats();
         }
 
         private void AssignValues()
         {
-            //Assign values to the textboxes
+            //Assign values to the textboxes in settings
             Txt_MinSpawnTime.Text = Global.MIN_SPAWN_TIME.ToString();
             Txt_MaxSpawnTime.Text = Global.MAX_SPAWN_TIME.ToString();
             Txt_MinServiceTime.Text = Global.MIN_SERVICE_TIME.ToString();
@@ -82,6 +85,85 @@ namespace PetrolTrulyUnlimited
             Txt_MaxFuelingTime.Text = Global.MAX_FUELLING_TIME.ToString();
             Txt_PumpVelocity.Text = Global.PUMP_VELOCITY.ToString();
             Txt_AnimationTime.Text = Global.ANIMATION_TIME.ToString();
+        }
+
+        private void UpdateStats()
+        {
+            PumpInformation[] pumpInfo = Main.pumpInformation;
+            Receipt[] receiptsInfo = Main.receipts.ToArray();
+            Fuel[] fuels = new Fuel[] { 
+                new Diesel(),
+                new Gasoline(),
+                new Lpg()
+            };
+
+            float totalLitres = 0f;
+            float[] totalEachFuel = new float[] { 0f, 0f, 0f };
+            float averageLitres = 0f;
+            float[] averageEachFuel = new float[] { 0f, 0f, 0f };
+
+            int countVehicles = 0;
+            int[] countEachVehicles = new int[] { 0, 0, 0 };
+            int maxFuelIndex = 0;
+            int minFuelIndex = 0;
+            int[] pumpUsed = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+            foreach (PumpInformation pump in pumpInfo)
+            {
+                for (int i = 0; i < pump.LitresDispensed.Length; i++)
+                {
+                    totalLitres += pump.LitresDispensed[i];
+                    totalEachFuel[i] += pump.LitresDispensed[i];
+
+                    countVehicles += pump.VehiclesCounter[i];
+                    countEachVehicles[i] += pump.VehiclesCounter[i];
+                }
+            }
+
+            averageLitres = totalLitres / countVehicles;
+
+            for (int i = 0; i < averageEachFuel.Length; i++)
+            {
+                if (totalEachFuel[i] >= totalEachFuel[maxFuelIndex])
+                {
+                    maxFuelIndex = i;
+                }
+
+                if (totalEachFuel[i] <= totalEachFuel[minFuelIndex])
+                {
+                    minFuelIndex = i;
+                }
+
+                averageEachFuel[i] = totalEachFuel[i] / countEachVehicles[i];
+            }
+
+            foreach (Receipt receipt in receiptsInfo)
+            {
+                int index = receipt.PumpId - 1;
+
+                pumpUsed[index]++;
+            }
+
+            Lbl_Stats_Pumps_Total.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(totalLitres, 2));
+            Lbl_Stats_Pumps_TotalDiesel.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(totalEachFuel[Global.DIESEL_INDEX], 2));
+            Lbl_Stats_Pumps_TotalGasoline.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(totalEachFuel[Global.GASOLINE_INDEX], 2));
+            Lbl_Stats_Pumps_TotalLpg.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(totalEachFuel[Global.LPG_INDEX], 2));
+
+            Lbl_Stats_Pumps_Average.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(averageLitres, 2));
+            Lbl_Stats_Pumps_AverageDiesel.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(averageEachFuel[Global.DIESEL_INDEX], 2));
+            Lbl_Stats_Pumps_AverageGasoline.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(averageEachFuel[Global.GASOLINE_INDEX], 2));
+            Lbl_Stats_Pumps_AverageLpg.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(averageEachFuel[Global.LPG_INDEX], 2));
+
+            Lbl_Stats_Pumps_MostUsedFuel.Content = fuels[maxFuelIndex].Type;
+            Lbl_Stats_Pumps_LessUsedFuel.Content = fuels[minFuelIndex].Type;
+            Lbl_Stats_Pumps_MostUsedPump.Content = string.Format("{0:Pump #}", Array.IndexOf(pumpUsed, pumpUsed.Max()) + 1);
+            Lbl_Stats_Pumps_LessUsedPump.Content = string.Format("{0:Pump #}", Array.IndexOf(pumpUsed, pumpUsed.Min()) + 1);
+        }
+
+
+        private void Btn_Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateStats();
         }
 
         private new void GotFocus(object sender, RoutedEventArgs e)
@@ -130,9 +212,7 @@ namespace PetrolTrulyUnlimited
             Global.PUMP_VELOCITY = float.Parse(Txt_PumpVelocity.Text);
             Global.ANIMATION_TIME = int.Parse(Txt_AnimationTime.Text);
 
-            Global.SetAnimationTime();
-
-            
+            Global.SetAnimationTime();        
 
             StreamWriter sw = new StreamWriter(Global.FILELOCATION_CURRENTVALUES, false);
 
@@ -147,6 +227,11 @@ namespace PetrolTrulyUnlimited
             sw.Close();
 
             ((MainWindow)Application.Current.MainWindow).Frm_Main.GoBack();
+        }
+
+        private void Btn_Receipts_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(Global.DIRECTORY_RECEIPTS);
         }
 
         private void Int_PreviewKeyDown(object sender, KeyEventArgs e)

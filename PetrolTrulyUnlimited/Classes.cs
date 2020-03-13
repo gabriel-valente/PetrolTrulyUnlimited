@@ -413,6 +413,7 @@ namespace PetrolTrulyUnlimited
         private string _vehicleType; //Type of the vehicle fuelled
         private float _litres; //Litres fuelled
         private int _pumpId; //Pump the vehicle was in
+        private Fuel _fuel = new Fuel("", 0f); //Type of fuel used
         private float _cost; //Cost of litres
 
         /// <summary>
@@ -461,6 +462,21 @@ namespace PetrolTrulyUnlimited
             }
         }
         /// <summary>
+        /// Type of fuel.
+        /// </summary>
+        public Fuel Fuel
+        {
+            get
+            {
+                return _fuel;
+            }
+
+            set
+            {
+                _fuel = value;
+            }
+        }
+        /// <summary>
         /// Cost of litres.
         /// </summary>
         public float Cost
@@ -487,7 +503,7 @@ namespace PetrolTrulyUnlimited
         private float[] _litresDispensed = { 0f, 0f, 0f }; //Litres dispensed for each fuel
         private float[] _amountWon = { 0f, 0f, 0f }; //Amout of money won for each fuel
         private float _commission = 0f; //Commission of that money
-        private int _vehicleCounter = 0; //Vehicles that went through the pump
+        private int[] _vehicleCounter = { 0, 0, 0 }; //Vehicles that went through the pump
         private int _notFullVehicle = 0; //Vehicles that did not totally filled the tank
         private Receipt _receipt = new Receipt(); //Current Receipt
 
@@ -539,7 +555,7 @@ namespace PetrolTrulyUnlimited
         /// <summary>
         /// Vehicles that went through the pump
         /// </summary>
-        public int VehiclesCounter
+        public int[] VehiclesCounter
         {
             get
             {

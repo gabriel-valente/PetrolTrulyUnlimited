@@ -8,16 +8,42 @@
       d:DesignHeight="720" d:DesignWidth="1280"
       Title="Main">
 
-    <Grid>
+    <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" MinWidth="185" MaxWidth="300"/>
             <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="1*" MinWidth="185" MaxWidth="300"/>
+            <ColumnDefinition Width="1*" MinWidth="215" MaxWidth="300"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!--Queue-->
+        <Popup Name="Vehicle_Popup" IsOpen="False" Placement="Relative">
+            <Grid Background="#FF646464" Width="230">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto" MinWidth="65"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="Vehicle type: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                <Label x:Name="Lbl_Vehicle_Type" Grid.Row="0" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                <Label Grid.Row="1" Grid.Column="0" Content="Total capacity: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                <Label x:Name="Lbl_Vehicle_Capacity" Grid.Row="1" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                <Label Grid.Row="2" Grid.Column="0" Content="Fuel remaining: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                <Label x:Name="Lbl_Vehicle_Remaining" Grid.Row="2" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                <Label Grid.Row="3" Grid.Column="0" Content="Fuel type: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                <Label x:Name="Lbl_Vehicle_Fuel" Grid.Row="3" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                <Label Grid.Row="4" Grid.Column="0" Content="Time before leaving: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                <Label x:Name="Lbl_Vehicle_Time" Grid.Row="4" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5"/>
+            </Grid>
+        </Popup>
+
         <Grid x:Name="Grd_QueueName" Grid.Column="0" Grid.Row="0" Margin="10,10,10,0" VerticalAlignment="Top" Height="40" MouseEnter="Queue_MouseEnter" MouseLeave="Queue_MouseLeave">
             <Popup Name="Queue_Popup" IsOpen="False" Placement="Relative">
                 <Grid Background="#FF646464" Width="230">
@@ -104,29 +130,15 @@
         </Grid>
 
         <WrapPanel x:Name="Wrp_Queue" Margin="10,55,10,0" Orientation="Vertical" ScrollViewer.HorizontalScrollBarVisibility="Visible" HorizontalAlignment="Center" FlowDirection="RightToLeft"/>
-        <!--Pumps-->
-        <Grid x:Name="Grd_Pumps" Grid.Column="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <Popup Name="Pump_Popup" IsOpen="False" Placement="Relative">
+        
+        <Popup Name="Pump_Popup" IsOpen="False" Placement="Relative">
                 <Grid Background="#FF646464" Width="230">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto" MinWidth="65"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -150,12 +162,30 @@
                     <Label Grid.Row="5" Grid.Column="0" Content="Receipt " FontWeight="Bold" FontSize="20" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
                     <Label Grid.Row="6" Grid.Column="0" Content="Vehicle Type: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
                     <Label x:Name="Lbl_Pump_VehicleType" Grid.Row="6" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label Grid.Row="7" Grid.Column="0" Content="Litres: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label x:Name="Lbl_Pump_Litres" Grid.Row="7" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label Grid.Row="8" Grid.Column="0" Content="Final Cost: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
-                    <Label x:Name="Lbl_Pump_Cost" Grid.Row="8" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label Grid.Row="7" Grid.Column="0" Content="Fuel: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Pump_Fuel" Grid.Row="7" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label Grid.Row="8" Grid.Column="0" Content="Litres: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Pump_Litres" Grid.Row="8" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label Grid.Row="9" Grid.Column="0" Content="Final Cost: " FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
+                    <Label x:Name="Lbl_Pump_Cost" Grid.Row="9" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="0"  Margin="5,2.5"/>
                 </Grid>
-            </Popup> 
+            </Popup>
+        
+        <!--Pumps-->
+        <Grid x:Name="Grd_Pumps" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
             <Rectangle Grid.Row="0" Grid.ColumnSpan="3" Fill="#FFEEEEEE" RadiusY="10" RadiusX="10" StrokeThickness="0" Margin="15"/>
             <Grid Grid.Row="0" Grid.Column="0" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
@@ -503,10 +533,16 @@
         </Grid>
 
         <ListBox x:Name="Lst_Receipts" Grid.Row="0" Grid.Column="2" Background="{x:Null}" Margin="10,60,10,60" ScrollViewer.CanContentScroll="False" Foreground="#FFEEEEEE" BorderThickness="0" HorizontalContentAlignment="Stretch" Padding="0">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Padding" Value="0"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
+                    <Grid Background="#FF666666">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
@@ -514,15 +550,22 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Row="0" Grid.Column="0" Content="{Binding VehicleType}" ContentStringFormat="Vehicle: {0}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5"/>
-                        <Label Grid.Row="1" Grid.Column="0" Content="{Binding PumpId}" ContentStringFormat="Pump: {0}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5"/>
-                        <Label Grid.Row="0" Grid.Column="1" Content="{Binding Litres}" ContentStringFormat="Litres: {0:F2}L" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5"/>
-                        <Label Grid.Row="1" Grid.Column="1" Content="{Binding Cost}" ContentStringFormat="Cost: {0:F2}£" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5"/>
+                        <Label Grid.Row="0" Grid.Column="0" Content="{Binding VehicleType}" ContentStringFormat="Vehicle: {0}" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Padding="5"/>
+                        <Label Grid.Row="1" Grid.Column="0" Content="{Binding Litres}" ContentStringFormat="Litres: {0:F2}L" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Padding="5"/>
+                        <Rectangle Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Fill="#FF454545" Width="2" RadiusX="1" RadiusY="1" Margin="0,5" HorizontalAlignment="Right" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5">
+                            <Rectangle.RenderTransform>
+                                <TransformGroup>
+                                    <TranslateTransform X="1"/>
+                                </TransformGroup>
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                        <Label Grid.Row="0" Grid.Column="1" Content="{Binding PumpId}" ContentStringFormat="Pump: {0}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Padding="5"/>
+                        <Label Grid.Row="1" Grid.Column="1" Content="{Binding Fuel.Type}" ContentStringFormat="Fuel: {0}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Padding="5"/>
+                        <Label Grid.Row="2" Grid.Column="1" Content="{Binding Cost}" ContentStringFormat="Cost: {0:F2}£" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Padding="5"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-
-        <Button x:Name="Btn_Settings" Grid.Row="0" Grid.Column="2" Content="Settings" Height="40" Margin="10" VerticalAlignment="Bottom" FontSize="14" Click="Btn_Settings_Click"/>
+        <Button x:Name="Btn_Settings" Grid.Row="0" Grid.Column="2" Content="Truly Unlimited Menu" Height="40" Margin="10" VerticalAlignment="Bottom" FontSize="14" Click="Btn_Settings_Click"/>
     </Grid>
 </Page>

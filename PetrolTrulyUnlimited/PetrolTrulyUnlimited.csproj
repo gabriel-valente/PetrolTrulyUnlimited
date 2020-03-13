@@ -134,5 +134,8 @@
     <Resource Include="Image\Van_Gasoline.png" />
     <Resource Include="Image\Van_Lpg.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\refresh.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

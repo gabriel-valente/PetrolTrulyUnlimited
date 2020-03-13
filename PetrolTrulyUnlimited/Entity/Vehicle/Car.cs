@@ -5,7 +5,11 @@
         public Car() : base() {
             Type = "Car";
             Capacity = 40.0f;
-            Fuel = SetFuelType(Global.CAR_FUEL);
+            Fuel = new Fuel[] {
+                new Diesel(),
+                new Lpg(),
+                new Gasoline()
+            };
         }
     }
 }
