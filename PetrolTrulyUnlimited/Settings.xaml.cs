@@ -1,5 +1,6 @@
 ﻿using PetrolTrulyUnlimited.Entity;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -65,6 +66,7 @@ namespace PetrolTrulyUnlimited
                 "\u2022 If this animation is not important for the pump logic this value can be 0.\n" +
                 "\u2022 Please notice if the value is too high the vehicles will take too long to leave and enter the pump."
         };
+        private int[][] fuelCount;
 
         public Settings()
         {
@@ -91,12 +93,25 @@ namespace PetrolTrulyUnlimited
         {
             PumpInformation[] pumpInfo = Main.pumpInformation;
             Receipt[] receiptsInfo = Main.receipts.ToArray();
-            Fuel[] fuels = new Fuel[] { 
+            Fuel[] fuels = new Fuel[] {
                 new Diesel(),
                 new Gasoline(),
                 new Lpg()
             };
+            Vehicle[] vehicles =
+            {
+                new Car(),
+                new Van(),
+                new Lorry()
+            };
 
+
+            StatsFuel(pumpInfo, receiptsInfo, fuels);
+            StatsVehicle(pumpInfo, receiptsInfo, fuels, vehicles);
+        }
+
+        private void StatsFuel(PumpInformation[] pumpInfo, Receipt[] receiptsInfo, Fuel[] fuels)
+        {
             float totalLitres = 0f;
             float[] totalEachFuel = new float[] { 0f, 0f, 0f };
             float averageLitres = 0f;
@@ -149,10 +164,10 @@ namespace PetrolTrulyUnlimited
             Lbl_Stats_Pumps_TotalGasoline.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(totalEachFuel[Global.GASOLINE_INDEX], 2));
             Lbl_Stats_Pumps_TotalLpg.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(totalEachFuel[Global.LPG_INDEX], 2));
 
-            Lbl_Stats_Pumps_Average.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(averageLitres, 2));
-            Lbl_Stats_Pumps_AverageDiesel.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(averageEachFuel[Global.DIESEL_INDEX], 2));
-            Lbl_Stats_Pumps_AverageGasoline.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(averageEachFuel[Global.GASOLINE_INDEX], 2));
-            Lbl_Stats_Pumps_AverageLpg.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(averageEachFuel[Global.LPG_INDEX], 2));
+            Lbl_Stats_Pumps_Average.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", !float.IsNaN(averageLitres) ? Math.Round(averageLitres, 2) : 0.0);
+            Lbl_Stats_Pumps_AverageDiesel.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", !float.IsNaN(averageEachFuel[Global.DIESEL_INDEX]) ? Math.Round(averageEachFuel[Global.DIESEL_INDEX], 2) : 0.0);
+            Lbl_Stats_Pumps_AverageGasoline.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", !float.IsNaN(averageEachFuel[Global.GASOLINE_INDEX]) ? Math.Round(averageEachFuel[Global.GASOLINE_INDEX], 2) : 0.0);
+            Lbl_Stats_Pumps_AverageLpg.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", !float.IsNaN(averageEachFuel[Global.LPG_INDEX]) ? Math.Round(averageEachFuel[Global.LPG_INDEX], 2) : 0.0);
 
             Lbl_Stats_Pumps_MostUsedFuel.Content = fuels[maxFuelIndex].Type;
             Lbl_Stats_Pumps_LessUsedFuel.Content = fuels[minFuelIndex].Type;
@@ -160,6 +175,92 @@ namespace PetrolTrulyUnlimited
             Lbl_Stats_Pumps_LessUsedPump.Content = string.Format("{0:Pump #}", Array.IndexOf(pumpUsed, pumpUsed.Min()) + 1);
         }
 
+        private void StatsVehicle(PumpInformation[] pumpInfo, Receipt[] receiptsInfo, Fuel[] fuels, Vehicle[] vehicles)
+        {
+            //Each row is one type of vehicle and each collumn is one type of fuel
+            int[,] fuelCount = new int[,] {
+                { 0, 0, 0 },
+                { 0, 0, 0 },
+                { 0, 0, 0 }
+            };
+
+            int[] mostCommonVehicle = new int[] { 0, 0 };
+            
+            int mostCommonDiesel = 0;
+            int mostCommonGasoline = 0;
+            int mostCommonLpg = 0;
+
+            float[,] fuelTime = new float[,] {
+                { 0f, 0f, 0f },
+                { 0f, 0f, 0f },
+                { 0f, 0f, 0f }
+            };
+
+            float averageTime = 0f;
+            float averageDieselTime = 0f;
+            float averageGasolineTime = 0f;
+            float averageLpgTime = 0f;
+
+            try
+            {
+                foreach (PumpInformation item in pumpInfo)
+                {
+                    int vehicleIndex = Array.IndexOf(vehicles, vehicles.First(_ => _.Type == item.Receipt.Vehicle.Type));
+                    int fuelIndex = Array.IndexOf(fuels, fuels.First(_ => _.Type == item.Receipt.Fuel.Type));
+
+                    fuelCount[vehicleIndex, fuelIndex]++;
+                    fuelTime[vehicleIndex, fuelIndex] += item.Receipt.Time;
+                }
+
+                foreach (Receipt item in receiptsInfo)
+                {
+                    int vehicleIndex = Array.IndexOf(vehicles, vehicles.First(_ => _.Type == item.Vehicle.Type));
+                    int fuelIndex = Array.IndexOf(fuels, fuels.First(_ => _.Type == item.Fuel.Type));
+
+                    fuelCount[vehicleIndex, fuelIndex]++;
+                    fuelTime[vehicleIndex, fuelIndex] += item.Time;
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+
+            for (int i = 0; i < fuelCount.GetLength(0); i++)
+            {
+                for (int j = 0; j < fuelCount.GetLength(1); j++)
+                {
+                    if (fuelCount[i, j] > fuelCount[mostCommonVehicle[0], mostCommonVehicle[1]])
+                    {
+                        mostCommonVehicle = new int[] { i, j };
+                    }
+                }
+
+                if (fuelCount[i, Global.DIESEL_INDEX] > fuelCount[mostCommonDiesel, Global.DIESEL_INDEX])
+                {
+                    mostCommonDiesel = i;
+                }
+
+                if (fuelCount[i, Global.GASOLINE_INDEX] > fuelCount[mostCommonDiesel, Global.GASOLINE_INDEX])
+                {
+                    mostCommonGasoline = i;
+                }
+
+                if (fuelCount[i, Global.LPG_INDEX] > fuelCount[mostCommonDiesel, Global.LPG_INDEX])
+                {
+                    mostCommonLpg = i;
+                }
+            }
+
+            /*
+             * falta fazer a puta da media de tempo seu cona mansa
+             */
+
+            Lbl_Stats_Vehicle_MostCommonVehicle.Content = vehicles[mostCommonVehicle[0]].Type;
+            Lbl_Stats_Vehicle_MostCommonDiesel.Content = vehicles[mostCommonDiesel].Type;
+            Lbl_Stats_Vehicle_MostCommonGasoline.Content = vehicles[mostCommonGasoline].Type;
+            Lbl_Stats_Vehicle_MostCommonLpg.Content = vehicles[mostCommonLpg].Type;
+        }
 
         private void Btn_Refresh_Click(object sender, RoutedEventArgs e)
         {
@@ -279,6 +380,57 @@ namespace PetrolTrulyUnlimited
 
                 e.Handled = true;
             }
+        }
+
+
+        private int ArrayAdd(int[,] Array)
+        {
+            int[] array = Array.Cast<int>().ToArray();
+            int sum = 0;
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                sum += array[i];
+            }
+
+            return sum;
+        }
+
+        private float ArrayAdd(float[,] Array)
+        {
+            float[] array = Array.Cast<float>().ToArray();
+            float sum = 0;
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                sum += array[i];
+            }
+
+            return sum;
+        }
+
+        private int ArrayAdd(int[] Array)
+        {
+            int sum = 0;
+
+            for (int i = 0; i < Array.Length; i++)
+            {
+                sum += Array[i];
+            }
+
+            return sum;
+        }
+
+        private float ArrayAdd(float[] Array)
+        {
+            float sum = 0;
+
+            for (int i = 0; i < Array.Length; i++)
+            {
+                sum += Array[i];
+            }
+
+            return sum;
         }
     }
 }

@@ -90,7 +90,7 @@ namespace PetrolTrulyUnlimited
             Console.WriteLine(Main.receipts.Count);
 
             Main.receipts.ForEach(item => {
-                sw.WriteLine(string.Format("{0},{1},{2},{3}", item.VehicleType, item.PumpId, string.Format(CultureInfo.InvariantCulture, "{0:##0.00L}", item.Litres), string.Format(CultureInfo.InvariantCulture, "{0:##0.00£}", item.Cost)));
+                sw.WriteLine(string.Format("{0},{1},{2},{3}", item.Vehicle.Type, item.PumpId, string.Format(CultureInfo.InvariantCulture, "{0:##0.00L}", item.Litres), string.Format(CultureInfo.InvariantCulture, "{0:##0.00£}", item.Cost)));
             });
 
             sw.Close();

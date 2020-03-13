@@ -53,6 +53,23 @@
 
         <Label Grid.Row="1" Grid.Column="0" Content="Statistics:" FontSize="24" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="10,7,10,0" Height="28" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True"/>
         <Button x:Name="Btn_Refresh" Grid.Row="1" Margin="122,7,0,0" FontSize="14" HorizontalAlignment="Left" Width="28" Height="28" VerticalAlignment="Top" Click="Btn_Refresh_Click">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Foreground" Value="#FFEEEEEE"/>
+                    <Setter Property="Background" Value="#FF666666"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="FontFamily" Value="Microsoft Sans Serif"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ButtonBase}">
+                                <Border x:Name="button" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True" UseLayoutRounding="True" d:DesignUseLayoutRounding="True">
+                                    <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" UseLayoutRounding="True" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" d:DesignUseLayoutRounding="True"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
             <Button.Background>
                 <ImageBrush ImageSource="Image/refresh.png" Stretch="Uniform"/>
             </Button.Background>
@@ -86,6 +103,27 @@
         <Label x:Name="Lbl_Stats_Pumps_MostUsedPump" Grid.Row="1" Grid.Column="0" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="195,261,10,0" Height="18" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True" HorizontalAlignment="Left"/>
         <Label Grid.Row="1" Grid.Column="0" Content="Less used pump:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="69,279,0,0" Height="18" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True"/>
         <Label x:Name="Lbl_Stats_Pumps_LessUsedPump" Grid.Row="1" Grid.Column="0" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="195,279,10,0" Height="18" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True" HorizontalAlignment="Left"/>
+        
+        
+        <Label Grid.Row="1" Grid.Column="1" Content="Vehicles:" FontSize="18" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalAlignment="Left" Padding="0" Margin="10,40,0,0" Height="24" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True"/>
+        <Rectangle Grid.Row="1" Grid.Column="1" Fill="#FF666666" Height="2" Width="73" RadiusX="1" RadiusY="1" Margin="10,64,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Label Grid.Row="1" Grid.Column="1" Content="Most common vehicle:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="31,71,0,0" Height="18" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True"/>
+        <Label x:Name="Lbl_Stats_Vehicle_MostCommonVehicle" Grid.Row="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="195,71,0,0" Height="18" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True" HorizontalAlignment="Left" Grid.Column="1"/>
+        <Label Grid.Row="1" Grid.Column="1" Content="Diesel:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="141,89,0,0" Height="18" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True"/>
+        <Label x:Name="Lbl_Stats_Vehicle_MostCommonDiesel" Grid.Row="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="195,89,0,0" Height="18" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True" HorizontalAlignment="Left" Grid.Column="1"/>
+        <Label Grid.Row="1" Grid.Column="1" Content="Gasoline:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="122,107,0,0" Height="18" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True"/>
+        <Label x:Name="Lbl_Stats_Vehicle_MostCommonGasoline" Grid.Row="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="195,107,0,0" Height="18" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True" HorizontalAlignment="Left" Grid.Column="1"/>
+        <Label Grid.Row="1" Content="Lpg:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="159,125,0,0" Height="18" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True" Grid.Column="1"/>
+        <Label x:Name="Lbl_Stats_Vehicle_MostCommonLpg" Grid.Row="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="195,125,0,0" Height="18" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True" HorizontalAlignment="Left" Grid.Column="1"/>
+        
+        <Label Grid.Row="1" Grid.Column="1" Content="Average time fueling:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="40,148,0,0" Height="18" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True"/>
+        <Label x:Name="Lbl_Stats_Vehicle_AverageTime" Grid.Row="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="195,148,0,0" Height="18" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True" HorizontalAlignment="Left" Grid.Column="1"/>
+        <Label Grid.Row="1" Grid.Column="1" Content="Car:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="160,166,0,0" Height="18" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True"/>
+        <Label x:Name="Lbl_Stats_Vehicle_AverageTimeCar" Grid.Row="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="195,166,0,0" Height="18" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True" HorizontalAlignment="Left" Grid.Column="1"/>
+        <Label Grid.Row="1" Grid.Column="1" Content="Van:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="157,184,0,0" Height="18" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True"/>
+        <Label x:Name="Lbl_Stats_Vehicle_AverageTimeVan" Grid.Row="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="195,184,0,0" Height="18" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True" HorizontalAlignment="Left" Grid.Column="1"/>
+        <Label Grid.Row="1" Content="Lorry:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="149,202,0,0" Height="18" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True" Grid.Column="1"/>
+        <Label x:Name="Lbl_Stats_Vehicle_AverageTimeLorry" Grid.Row="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="195,202,0,0" Height="18" TextOptions.TextHintingMode="Fixed" UseLayoutRounding="True" HorizontalAlignment="Left" Grid.Column="1"/>
 
         <Button x:Name="Btn_Receipts" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Content="Receipt Folder" Height="40" Width="100" Margin="0,0,325,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="14" Click="Btn_Receipts_Click"/>
         <Button x:Name="Btn_Default" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Content="Default Values" Height="40" Width="100" Margin="0,0,220,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="14" Click="Btn_Default_Click"/>

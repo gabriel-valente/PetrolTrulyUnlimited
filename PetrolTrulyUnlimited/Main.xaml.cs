@@ -365,11 +365,12 @@ namespace PetrolTrulyUnlimited
             }
 
             Receipt receipt = new Receipt() {
-                VehicleType = vehicle.Type,
+                Vehicle = vehicle,
                 PumpId = pump.Id,
                 Litres = Global.PUMP_VELOCITY * (fuelingTime / 1000),
                 Fuel = vehicle.FuelType,
-                Cost = (Global.PUMP_VELOCITY * (fuelingTime / 1000)) * vehicle.FuelType.Price
+                Cost = (Global.PUMP_VELOCITY * (fuelingTime / 1000)) * vehicle.FuelType.Price,
+                Time = fuelingTime
             };
 
 
@@ -565,7 +566,7 @@ namespace PetrolTrulyUnlimited
                 Lbl_Pump_Commission.Content = string.Format(CultureInfo.InvariantCulture, "{0:##0.00£}", pumpInformation[pump].Commission);
                 Lbl_Pump_VehicleCounter.Content = totalVehicles;
                 Lbl_Pump_NotFullVehicles.Content = pumpInformation[pump].NotFullVehicle;
-                Lbl_Pump_VehicleType.Content = pumpInformation[pump].Receipt.VehicleType;
+                Lbl_Pump_VehicleType.Content = pumpInformation[pump].Receipt.Vehicle.Type;
                 Lbl_Pump_Fuel.Content = pumpInformation[pump].Receipt.Fuel.Type.ToString();
                 Lbl_Pump_Litres.Content = string.Format(CultureInfo.InvariantCulture, "{0:##0.00L}", pumpInformation[pump].Receipt.Litres);
                 Lbl_Pump_Cost.Content = string.Format(CultureInfo.InvariantCulture, "{0:##0.00£}", pumpInformation[pump].Receipt.Cost);

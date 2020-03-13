@@ -410,25 +410,26 @@ namespace PetrolTrulyUnlimited
     /// </summary>
     public class Receipt
     {
-        private string _vehicleType; //Type of the vehicle fuelled
+        private Vehicle _vehicle = new Vehicle(); //Type of the vehicle fuelled
         private float _litres; //Litres fuelled
         private int _pumpId; //Pump the vehicle was in
         private Fuel _fuel = new Fuel("", 0f); //Type of fuel used
         private float _cost; //Cost of litres
+        private float _time; //Time of fueling
 
         /// <summary>
         /// Type of the vehicle fuelled.
         /// </summary>
-        public string VehicleType
+        public Vehicle Vehicle
         {
             get
             {
-                return _vehicleType;
+                return _vehicle;
             }
 
             set
             {
-                _vehicleType = value;
+                _vehicle = value;
             }
         }
         /// <summary>
@@ -489,6 +490,22 @@ namespace PetrolTrulyUnlimited
             set
             {
                 _cost = value;
+            }
+        }
+
+        /// <summary>
+        /// Time of fueling.
+        /// </summary>
+        public float Time
+        {
+            get
+            {
+                return _time;
+            }
+
+            set
+            {
+                _time = value;
             }
         }
 
