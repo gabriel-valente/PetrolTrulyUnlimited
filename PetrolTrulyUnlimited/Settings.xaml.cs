@@ -197,9 +197,9 @@ namespace PetrolTrulyUnlimited
             };
 
             float averageTime = 0f;
-            float averageDieselTime = 0f;
-            float averageGasolineTime = 0f;
-            float averageLpgTime = 0f;
+            float averageCarTime = 0f;
+            float averageVanTime = 0f;
+            float averageLorryTime = 0f;
 
             try
             {
@@ -252,14 +252,38 @@ namespace PetrolTrulyUnlimited
                 }
             }
 
-            /*
-             * falta fazer a puta da media de tempo seu cona mansa
-             */
+            float sumCTime = 0f;
+            float sumVTime = 0f;
+            float sumLTime = 0f;
+            int sumCCount = 0;
+            int sumVCount = 0;
+            int sumLCount = 0;
+
+            averageTime = fuelTime.Cast<float>().Sum() / fuelCount.Cast<int>().Sum();
+
+            for (int i = 0; i < fuelTime.GetLength(0); i++)
+            {
+                sumCTime += fuelTime[0, i];
+                sumVTime += fuelTime[1, i];
+                sumLTime += fuelTime[2, i];
+                sumCCount += fuelCount[0, i];
+                sumVCount += fuelCount[1, i];
+                sumLCount += fuelCount[2, i];
+            }
+
+            averageCarTime = sumCTime / sumCCount;
+            averageVanTime = sumVTime / sumVCount;
+            averageLorryTime = sumLTime / sumLCount;
+
 
             Lbl_Stats_Vehicle_MostCommonVehicle.Content = vehicles[mostCommonVehicle[0]].Type;
             Lbl_Stats_Vehicle_MostCommonDiesel.Content = vehicles[mostCommonDiesel].Type;
             Lbl_Stats_Vehicle_MostCommonGasoline.Content = vehicles[mostCommonGasoline].Type;
             Lbl_Stats_Vehicle_MostCommonLpg.Content = vehicles[mostCommonLpg].Type;
+            Lbl_Stats_Vehicle_AverageTime.Content = string.Format("{0} sec.", Math.Round(averageTime / 1000, 2));
+            Lbl_Stats_Vehicle_AverageTimeCar.Content = string.Format("{0} sec.", Math.Round(averageCarTime / 1000, 2));
+            Lbl_Stats_Vehicle_AverageTimeVan.Content = string.Format("{0} sec.", Math.Round(averageVanTime / 1000, 2));
+            Lbl_Stats_Vehicle_AverageTimeLorry.Content = string.Format("{0} sec.", Math.Round(averageLorryTime / 1000, 2));
         }
 
         private void Btn_Refresh_Click(object sender, RoutedEventArgs e)
