@@ -201,18 +201,24 @@ namespace PetrolTrulyUnlimited
             float averageVanTime = 0f;
             float averageLorryTime = 0f;
 
-            try
+            foreach (PumpInformation item in pumpInfo)
             {
-                foreach (PumpInformation item in pumpInfo)
+                try
                 {
                     int vehicleIndex = Array.IndexOf(vehicles, vehicles.First(_ => _.Type == item.Receipt.Vehicle.Type));
                     int fuelIndex = Array.IndexOf(fuels, fuels.First(_ => _.Type == item.Receipt.Fuel.Type));
 
                     fuelCount[vehicleIndex, fuelIndex]++;
                     fuelTime[vehicleIndex, fuelIndex] += item.Receipt.Time;
+                    }
+                catch (Exception)
+                {
                 }
+            }
 
-                foreach (Receipt item in receiptsInfo)
+            foreach (Receipt item in receiptsInfo)
+            {
+                try
                 {
                     int vehicleIndex = Array.IndexOf(vehicles, vehicles.First(_ => _.Type == item.Vehicle.Type));
                     int fuelIndex = Array.IndexOf(fuels, fuels.First(_ => _.Type == item.Fuel.Type));
@@ -220,10 +226,9 @@ namespace PetrolTrulyUnlimited
                     fuelCount[vehicleIndex, fuelIndex]++;
                     fuelTime[vehicleIndex, fuelIndex] += item.Time;
                 }
-            }
-            catch (Exception)
-            {
-
+                catch (Exception)
+                {
+                }
             }
 
             for (int i = 0; i < fuelCount.GetLength(0); i++)
@@ -284,6 +289,18 @@ namespace PetrolTrulyUnlimited
             Lbl_Stats_Vehicle_AverageTimeCar.Content = string.Format("{0} sec.", Math.Round(averageCarTime / 1000, 2));
             Lbl_Stats_Vehicle_AverageTimeVan.Content = string.Format("{0} sec.", Math.Round(averageVanTime / 1000, 2));
             Lbl_Stats_Vehicle_AverageTimeLorry.Content = string.Format("{0} sec.", Math.Round(averageLorryTime / 1000, 2));
+        }
+
+        private void StatsFinance(PumpInformation[] pumpInfo, Receipt[] receiptInfo)
+        {
+            /*
+             * Ler pelas duas listas, e verificar cada recibo.
+             * Adicionar o dinheiro ganho pelos veiculos abastecidos
+             * Calcular o dinheiro para comissoes.
+             * Calcular o salario geral dos funcionarios com a comissao de 0.01
+             * 
+             * Boa viagem Muhdo
+             */
         }
 
         private void Btn_Refresh_Click(object sender, RoutedEventArgs e)
