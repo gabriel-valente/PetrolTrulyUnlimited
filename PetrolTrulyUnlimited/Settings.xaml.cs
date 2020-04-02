@@ -108,6 +108,7 @@ namespace PetrolTrulyUnlimited
 
             StatsFuel(pumpInfo, receiptsInfo, fuels);
             StatsVehicle(pumpInfo, receiptsInfo, fuels, vehicles);
+            StatsFinance(pumpInfo, receiptsInfo);
         }
 
         private void StatsFuel(PumpInformation[] pumpInfo, Receipt[] receiptsInfo, Fuel[] fuels)
@@ -285,22 +286,45 @@ namespace PetrolTrulyUnlimited
             Lbl_Stats_Vehicle_MostCommonDiesel.Content = vehicles[mostCommonDiesel].Type;
             Lbl_Stats_Vehicle_MostCommonGasoline.Content = vehicles[mostCommonGasoline].Type;
             Lbl_Stats_Vehicle_MostCommonLpg.Content = vehicles[mostCommonLpg].Type;
-            Lbl_Stats_Vehicle_AverageTime.Content = string.Format("{0} sec.", Math.Round(averageTime / 1000, 2));
-            Lbl_Stats_Vehicle_AverageTimeCar.Content = string.Format("{0} sec.", Math.Round(averageCarTime / 1000, 2));
-            Lbl_Stats_Vehicle_AverageTimeVan.Content = string.Format("{0} sec.", Math.Round(averageVanTime / 1000, 2));
-            Lbl_Stats_Vehicle_AverageTimeLorry.Content = string.Format("{0} sec.", Math.Round(averageLorryTime / 1000, 2));
+            Lbl_Stats_Vehicle_AverageTime.Content = string.Format("{0} sec.", !float.IsNaN(averageTime) ? Math.Round(averageTime / 1000, 2) : 0.0);
+            Lbl_Stats_Vehicle_AverageTimeCar.Content = string.Format("{0} sec.", !float.IsNaN(averageCarTime) ? Math.Round(averageCarTime / 1000, 2) : 0.0);
+            Lbl_Stats_Vehicle_AverageTimeVan.Content = string.Format("{0} sec.", !float.IsNaN(averageVanTime) ? Math.Round(averageVanTime / 1000, 2) : 0.0);
+            Lbl_Stats_Vehicle_AverageTimeLorry.Content = string.Format("{0} sec.", !float.IsNaN(averageLorryTime) ? Math.Round(averageLorryTime / 1000, 2) : 0.0);
         }
 
         private void StatsFinance(PumpInformation[] pumpInfo, Receipt[] receiptInfo)
         {
-            /*
-             * Ler pelas duas listas, e verificar cada recibo.
-             * Adicionar o dinheiro ganho pelos veiculos abastecidos
-             * Calcular o dinheiro para comissoes.
-             * Calcular o salario geral dos funcionarios com a comissao de 0.01
-             * 
-             * Boa viagem Muhdo
-             */
+            float amountWon = 0f;
+            float commission = 0f;
+
+
+            foreach (PumpInformation item in pumpInfo)
+            {
+                try
+                {
+                    amountWon += item.Receipt.Cost;
+                    commission += item.Receipt.Cost * 0.01f;
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+            foreach (Receipt item in receiptInfo)
+            {
+                try
+                {
+                    amountWon += item.Cost;
+                    commission += item.Cost * 0.01f;
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+            Lbl_Stats_Finances_TotalWon.Content = string.Format(CultureInfo.InvariantCulture, "{0:##0.00£}", amountWon);
+            Lbl_Stats_Finances_Commission.Content = string.Format(CultureInfo.InvariantCulture, "{0:##0.00£}", commission);
+            Lbl_Stats_Finances_SalaryCommission.Content = string.Format(CultureInfo.InvariantCulture, "{0:##0.00£}", (2.49f * 8) + commission);
         }
 
         private void Btn_Refresh_Click(object sender, RoutedEventArgs e)
