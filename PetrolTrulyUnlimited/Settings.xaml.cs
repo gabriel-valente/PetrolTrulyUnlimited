@@ -1,7 +1,5 @@
 ﻿using PetrolTrulyUnlimited.Entity;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -66,7 +64,6 @@ namespace PetrolTrulyUnlimited
                 "\u2022 If this animation is not important for the pump logic this value can be 0.\n" +
                 "\u2022 Please notice if the value is too high the vehicles will take too long to leave and enter the pump."
         };
-        private int[][] fuelCount;
 
         public Settings()
         {
@@ -78,7 +75,7 @@ namespace PetrolTrulyUnlimited
 
         private void AssignValues()
         {
-            //Assign values to the textboxes in settings
+            //Reads the values from the global variables and assigns it to the TextBoxes
             Txt_MinSpawnTime.Text = Global.MIN_SPAWN_TIME.ToString();
             Txt_MaxSpawnTime.Text = Global.MAX_SPAWN_TIME.ToString();
             Txt_MinServiceTime.Text = Global.MIN_SERVICE_TIME.ToString();
@@ -91,13 +88,16 @@ namespace PetrolTrulyUnlimited
 
         private void UpdateStats()
         {
-            PumpInformation[] pumpInfo = Main.pumpInformation;
-            Receipt[] receiptsInfo = Main.receipts.ToArray();
+            //Sets some variables with the running app information
+            PumpInformation[] pumpInfo = Main.pumpInformation; //Gets and assigns each pump information
+            Receipt[] receiptsInfo = Main.receipts.ToArray(); //Gets and assigns each receipt information
+            //All fuels available (needs to be in the same order as it is assign everywhere else)
             Fuel[] fuels = new Fuel[] {
                 new Diesel(),
                 new Gasoline(),
                 new Lpg()
             };
+            //All vehicles available (needs to be in the same order as it is assign everywhere else)
             Vehicle[] vehicles =
             {
                 new Car(),
@@ -105,14 +105,21 @@ namespace PetrolTrulyUnlimited
                 new Lorry()
             };
 
-
+            //Loads each type of data to display
             StatsFuel(pumpInfo, receiptsInfo, fuels);
             StatsVehicle(pumpInfo, receiptsInfo, fuels, vehicles);
             StatsFinance(pumpInfo, receiptsInfo);
         }
 
+        /// <summary>
+        /// Computes and displays fuel related data.
+        /// </summary>
+        /// <param name="pumpInfo">Array with all data from each pump.</param>
+        /// <param name="receiptsInfo">Array with all receipts.</param>
+        /// <param name="fuels">Array with each fuel available.</param>
         private void StatsFuel(PumpInformation[] pumpInfo, Receipt[] receiptsInfo, Fuel[] fuels)
         {
+            //Variables with data to display to the user
             float totalLitres = 0f;
             float[] totalEachFuel = new float[] { 0f, 0f, 0f };
             float averageLitres = 0f;
@@ -124,47 +131,54 @@ namespace PetrolTrulyUnlimited
             int minFuelIndex = 0;
             int[] pumpUsed = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
+            //Goes through each pump information
             foreach (PumpInformation pump in pumpInfo)
             {
+                //For each type of fuel in the pump
                 for (int i = 0; i < pump.LitresDispensed.Length; i++)
                 {
-                    totalLitres += pump.LitresDispensed[i];
-                    totalEachFuel[i] += pump.LitresDispensed[i];
+                    totalLitres += pump.LitresDispensed[i]; //Adds to the total amount of fuel dispensed
+                    totalEachFuel[i] += pump.LitresDispensed[i]; //Adds to the fuel dispensed of that type
 
-                    countVehicles += pump.VehiclesCounter[i];
-                    countEachVehicles[i] += pump.VehiclesCounter[i];
+                    countVehicles += pump.VehiclesCounter[i]; //Adds one vehicle to the total vehicles served
+                    countEachVehicles[i] += pump.VehiclesCounter[i]; //Adds one to the that type of vehicle served
                 }
             }
 
-            averageLitres = totalLitres / countVehicles;
+            averageLitres = totalLitres / countVehicles; //Calculates the Average litres dispensed
 
+            //Goes in each type of fuel
             for (int i = 0; i < averageEachFuel.Length; i++)
             {
+                //Checks if current type of fuel is used more than the other
                 if (totalEachFuel[i] >= totalEachFuel[maxFuelIndex])
                 {
-                    maxFuelIndex = i;
+                    maxFuelIndex = i; //Sets current type of fuel to be the most used
                 }
 
+                //Checks if current type of fuel is used less than the other
                 if (totalEachFuel[i] <= totalEachFuel[minFuelIndex])
                 {
-                    minFuelIndex = i;
+                    minFuelIndex = i; //Sets current type of fuel to be the less used
                 }
 
-                averageEachFuel[i] = totalEachFuel[i] / countEachVehicles[i];
+                averageEachFuel[i] = totalEachFuel[i] / countEachVehicles[i]; //Calculates the average for each type of fuel
             }
-
+            
+            //Goes through each receipt
             foreach (Receipt receipt in receiptsInfo)
             {
-                int index = receipt.PumpId - 1;
-
-                pumpUsed[index]++;
+                //Pump index is one less than the pump id
+                pumpUsed[receipt.PumpId - 1]++; //Adds one to the specific pump
             }
 
+            //Assigns each data to the corresponding label
             Lbl_Stats_Pumps_Total.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(totalLitres, 2));
             Lbl_Stats_Pumps_TotalDiesel.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(totalEachFuel[Global.DIESEL_INDEX], 2));
             Lbl_Stats_Pumps_TotalGasoline.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(totalEachFuel[Global.GASOLINE_INDEX], 2));
             Lbl_Stats_Pumps_TotalLpg.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(totalEachFuel[Global.LPG_INDEX], 2));
 
+            //This checks if the data is NaN or not, if it is NaN it displays 0 otherwise displays the corresponding data
             Lbl_Stats_Pumps_Average.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", !float.IsNaN(averageLitres) ? Math.Round(averageLitres, 2) : 0.0);
             Lbl_Stats_Pumps_AverageDiesel.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", !float.IsNaN(averageEachFuel[Global.DIESEL_INDEX]) ? Math.Round(averageEachFuel[Global.DIESEL_INDEX], 2) : 0.0);
             Lbl_Stats_Pumps_AverageGasoline.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", !float.IsNaN(averageEachFuel[Global.GASOLINE_INDEX]) ? Math.Round(averageEachFuel[Global.GASOLINE_INDEX], 2) : 0.0);
@@ -172,10 +186,17 @@ namespace PetrolTrulyUnlimited
 
             Lbl_Stats_Pumps_MostUsedFuel.Content = fuels[maxFuelIndex].Type;
             Lbl_Stats_Pumps_LessUsedFuel.Content = fuels[minFuelIndex].Type;
-            Lbl_Stats_Pumps_MostUsedPump.Content = string.Format("{0:Pump #}", Array.IndexOf(pumpUsed, pumpUsed.Max()) + 1);
-            Lbl_Stats_Pumps_LessUsedPump.Content = string.Format("{0:Pump #}", Array.IndexOf(pumpUsed, pumpUsed.Min()) + 1);
+            Lbl_Stats_Pumps_MostUsedPump.Content = string.Format("{0:Pump #}", Array.IndexOf(pumpUsed, pumpUsed.Max()) + 1); //Displays the id of the most used pump
+            Lbl_Stats_Pumps_LessUsedPump.Content = string.Format("{0:Pump #}", Array.IndexOf(pumpUsed, pumpUsed.Min()) + 1); //Displays the id of the less used pump
         }
 
+        /// <summary>
+        /// Computes and displays vehicle related data.
+        /// </summary>
+        /// <param name="pumpInfo">Array with all data from each pump.</param>
+        /// <param name="receiptsInfo">Array with all receipts.</param>
+        /// <param name="fuels">Array with each fuel available.</param>
+        /// <param name="vehicles">Array with each possible vehicle.</param>
         private void StatsVehicle(PumpInformation[] pumpInfo, Receipt[] receiptsInfo, Fuel[] fuels, Vehicle[] vehicles)
         {
             //Each row is one type of vehicle and each collumn is one type of fuel
@@ -366,6 +387,11 @@ namespace PetrolTrulyUnlimited
             ((MainWindow)Application.Current.MainWindow).Frm_Main.GoBack(); //References the MainWindow frame and navigates to the previous page
         }
 
+        /// <summary>
+        /// Saves all the changes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_Save_Click(object sender, RoutedEventArgs e)
         {
             //Assigns every value to the specific variable
@@ -378,31 +404,44 @@ namespace PetrolTrulyUnlimited
             Global.PUMP_VELOCITY = float.Parse(Txt_PumpVelocity.Text);
             Global.ANIMATION_TIME = int.Parse(Txt_AnimationTime.Text);
 
-            Global.SetAnimationTime();        
+            Global.SetAnimationTime(); //Calls the function that sets the animation time
 
-            StreamWriter sw = new StreamWriter(Global.FILELOCATION_CURRENTVALUES, false);
+            StreamWriter sw = new StreamWriter(Global.FILELOCATION_CURRENTVALUES, false); //Opens the file writer on the current configuration file, with the append turned off
 
+            //For each variable in the Global file
             foreach (FieldInfo field in typeof(Global).GetFields()) //https://stackoverflow.com/questions/6536163/how-to-list-all-variables-of-class
             {
+                //Checks if its not the animation variable
                 if (field.FieldType.ToString() != "System.Windows.Media.Animation.DoubleAnimation" && !field.IsLiteral)
                 {
-                    sw.WriteLine(field.Name + " : " + field.GetValue(this) + " : " + field.FieldType);
+                    sw.WriteLine(field.Name + " : " + field.GetValue(this) + " : " + field.FieldType); //Writes a new line with the variable name, value, and type
                 }
             }
 
-            sw.Close();
+            sw.Close(); //Closes the file writer
 
-            ((MainWindow)Application.Current.MainWindow).Frm_Main.GoBack();
+            ((MainWindow)Application.Current.MainWindow).Frm_Main.GoBack(); //Goes back to the previous page
         }
 
+        /// <summary>
+        /// Opens a Windows File Explorer.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_Receipts_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(Global.DIRECTORY_RECEIPTS);
+            Process.Start(Global.DIRECTORY_RECEIPTS); //Opens a Windows File Explorer window in the directory of the Receipts
         }
 
+        /// <summary>
+        /// For type of Int checks if only numeric keys are pressed.
+        /// </summary>
+        /// <param name="sender">TextBox in use.</param>
+        /// <param name="e">Key arguments.</param>
         private void Int_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            Key input = e.Key;
+            Key input = e.Key; //Key pressed
+            //Possible key presses
             Key[] range = { 
                 Key.D0, Key.D1, Key.D2, Key.D3, Key.D4, Key.D5, Key.D6, Key.D7, Key.D8, Key.D9, 
                 Key.NumPad0, Key.NumPad1, Key.NumPad2, Key.NumPad3, Key.NumPad4, Key.NumPad5, Key.NumPad6, Key.NumPad7, Key.NumPad8, Key.NumPad9,
@@ -410,15 +449,22 @@ namespace PetrolTrulyUnlimited
                 Key.Left, Key.Right
             };
 
+            //Checks if the key pressed is in the range above
             if (!range.Contains(input))
             {
-                e.Handled = true;
+                e.Handled = true; //If the key is not in the range it will tell the that the key was already handled
             }
         }
 
+        /// <summary>
+        /// For type of Float checks if only numeric keys are pressed.
+        /// </summary>
+        /// <param name="sender">TextBox in use.</param>
+        /// <param name="e">Key arguments.</param>
         private void Float_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            Key input = e.Key;
+            Key input = e.Key; //Key pressed
+            //Possible key presses
             Key[] range = {
                 Key.D0, Key.D1, Key.D2, Key.D3, Key.D4, Key.D5, Key.D6, Key.D7, Key.D8, Key.D9,
                 Key.NumPad0, Key.NumPad1, Key.NumPad2, Key.NumPad3, Key.NumPad4, Key.NumPad5, Key.NumPad6, Key.NumPad7, Key.NumPad8, Key.NumPad9,
@@ -427,23 +473,25 @@ namespace PetrolTrulyUnlimited
                 Key.Left, Key.Right
             };
 
+            //Checks if the key pressed is in the range above
             if (!range.Contains(input))
             {
-                e.Handled = true;
+                e.Handled = true; //If the key is not in the range it will tell the that the key was already handled
             }
-            else if (input == Key.OemPeriod || input == Key.OemComma)
+            else if (input == Key.OemPeriod || input == Key.OemComma) //Checks if it's a comma or period.
             {
-                TextBox textBox = (TextBox)sender;
-                int index = textBox.SelectionStart;
+                TextBox textBox = (TextBox)sender; //Gets the current textbox
+                int index = textBox.SelectionStart; //Gets the current index that the user is writting
 
+                //Checks if the current data doesnt contain already a comma
                 if (!textBox.Text.Contains(","))
                 {
-                textBox.Text = textBox.Text.Insert(index, ",");
+                    textBox.Text = textBox.Text.Insert(index, ","); //Adds a comma to the current index, its done like this because the user can type a period and its not valid
 
-                textBox.SelectionStart = ++index;
+                    textBox.SelectionStart = ++index; //Increasses the selection start by one so the user can continue typing without any weirdness
                 }
 
-                e.Handled = true;
+                e.Handled = true; //Tells that the key was already handled
             }
         }
 

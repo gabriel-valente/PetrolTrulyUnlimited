@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PetrolTrulyUnlimited"
         mc:Ignorable="d"
-        Title="Petrol Truly Unlimited" Height="751" Width="1288" MinWidth="410" Closing="Window_Closing">
+        Title="Petrol Truly Unlimited" Height="751" Width="1288" MinHeight="751" MinWidth="1288" Closing="Window_Closing">
     <Grid>
         <Frame x:Name="Frm_Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" NavigationUIVisibility="Hidden"/>
     </Grid>

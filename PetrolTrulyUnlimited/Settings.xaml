@@ -18,40 +18,40 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="Settings:" FontSize="24" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="10,7,10,0" Height="28"/>
-        <Label Grid.Row="0" Grid.Column="0" Content="Vehicle Spawn Time:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="75,42,0,0" Height="18"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="Settings:" FontSize="24" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="10,7,10,0" Height="28" UseLayoutRounding="True"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="Vehicle Spawn Time:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="75,42,0,0" Height="18" UseLayoutRounding="True"/>
         <TextBox Grid.Row="0" Grid.Column="0" x:Name="Txt_MinSpawnTime" HorizontalAlignment="Left" VerticalContentAlignment="Center" Height="18" Margin="230,42,0,0" TextWrapping="Wrap" Text="1500" VerticalAlignment="Top" Width="50" Tag="0" GotFocus="GotFocus" PreviewKeyDown="Int_PreviewKeyDown"/>
-        <Label Grid.Row="0" Grid.Column="0" Content="ms - " FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="285,42,0,0" Height="18"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="ms - " FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="285,42,0,0" Height="18" UseLayoutRounding="True"/>
         <TextBox Grid.Row="0" Grid.Column="0" x:Name="Txt_MaxSpawnTime" HorizontalAlignment="Left" VerticalContentAlignment="Center" Height="18" Margin="319,42,0,0" TextWrapping="Wrap" Text="2200" VerticalAlignment="Top" Width="50" Tag="0" GotFocus="GotFocus" PreviewKeyDown="Int_PreviewKeyDown"/>
-        <Label Grid.Row="0" Grid.Column="0" Content="ms" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="374,42,0,0" Height="18"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="ms" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="374,42,0,0" Height="18" UseLayoutRounding="True"/>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="Wait Time Before Service:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="39,65,0,0" Height="18"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="Wait Time Before Service:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="39,65,0,0" Height="18" UseLayoutRounding="True"/>
         <TextBox Grid.Row="0" Grid.Column="0" x:Name="Txt_MinServiceTime" HorizontalAlignment="Left" VerticalContentAlignment="Center" Height="18" Margin="230,65,0,0" TextWrapping="Wrap" Text="7000" VerticalAlignment="Top" Width="50" Tag="1" GotFocus="GotFocus" PreviewKeyDown="Int_PreviewKeyDown"/>
-        <Label Grid.Row="0" Grid.Column="0" Content="ms - " FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="285,65,0,0" Height="18"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="ms - " FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="285,65,0,0" Height="18" UseLayoutRounding="True"/>
         <TextBox Grid.Row="0" Grid.Column="0" x:Name="Txt_MaxServiceTime" HorizontalAlignment="Left" VerticalContentAlignment="Center" Height="18" Margin="319,65,0,0" TextWrapping="Wrap" Text="10000" VerticalAlignment="Top" Width="50" Tag="1" GotFocus="GotFocus" PreviewKeyDown="Int_PreviewKeyDown"/>
-        <Label Grid.Row="0" Grid.Column="0" Content="ms" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="374,65,0,0" Height="18"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="ms" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="374,65,0,0" Height="18" UseLayoutRounding="True"/>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="Maximum Queue Lenght:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="46,88,0,0" Height="18"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="Maximum Queue Lenght:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="46,88,0,0" Height="18" UseLayoutRounding="True"/>
         <TextBox Grid.Row="0" Grid.Column="0" x:Name="Txt_MaxQueueSize" HorizontalAlignment="Left" VerticalContentAlignment="Center" Height="18" Margin="230,88,0,0" TextWrapping="Wrap" Text="5" VerticalAlignment="Top" Width="50" Tag="2" GotFocus="GotFocus" PreviewKeyDown="Int_PreviewKeyDown"/>
-        <Label Grid.Row="0" Grid.Column="0" Content="Vehicles" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="285,88,0,0" Height="18"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="Vehicles" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="285,88,0,0" Height="18" UseLayoutRounding="True"/>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="Maximum Time Fueling:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="54,111,0,0" Height="18"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="Maximum Time Fueling:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="54,111,0,0" Height="18" UseLayoutRounding="True"/>
         <TextBox Grid.Row="0" Grid.Column="0" x:Name="Txt_MaxFuelingTime" HorizontalAlignment="Left" VerticalContentAlignment="Center" Height="18" Margin="230,111,0,0" TextWrapping="Wrap" Text="18000" VerticalAlignment="Top" Width="50" Tag="3" GotFocus="GotFocus" PreviewKeyDown="Int_PreviewKeyDown"/>
-        <Label Grid.Row="0" Grid.Column="0" Content="ms" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="285,111,0,0" Height="18"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="ms" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="285,111,0,0" Height="18" UseLayoutRounding="True"/>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="Pump Dispensing Velocity:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="35,134,0,0" Height="18"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="Pump Dispensing Velocity:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="35,134,0,0" Height="18" UseLayoutRounding="True"/>
         <TextBox Grid.Row="0" Grid.Column="0" x:Name="Txt_PumpVelocity" HorizontalAlignment="Left" VerticalContentAlignment="Center" Height="18" Margin="230,134,0,0" TextWrapping="Wrap" Text="1.5" VerticalAlignment="Top" Width="50" Tag="4" GotFocus="GotFocus" PreviewKeyDown="Float_PreviewKeyDown"/>
-        <Label Grid.Row="0" Grid.Column="0" Content="l/s" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="285,134,0,0" Height="18"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="l/s" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="285,134,0,0" Height="18" UseLayoutRounding="True"/>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="Swapping Animation Duration:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="10,157,0,0" Height="18"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="Swapping Animation Duration:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="10,157,0,0" Height="18" UseLayoutRounding="True"/>
         <TextBox Grid.Row="0" Grid.Column="0" x:Name="Txt_AnimationTime" HorizontalAlignment="Left" VerticalContentAlignment="Center" Height="18" Margin="230,157,0,0" TextWrapping="Wrap" Text="150" VerticalAlignment="Top" Width="50" Tag="5" GotFocus="GotFocus" PreviewKeyDown="Int_PreviewKeyDown"/>
-        <Label Grid.Row="0" Grid.Column="0" Content="ms" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="285,157,0,0" Height="18"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="ms" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="285,157,0,0" Height="18" UseLayoutRounding="True"/>
 
-        <TextBlock x:Name="Txb_Tips" Grid.Row="0" Grid.Column="1" Foreground="#FFEEEEEE" FontSize="14" Padding="0" Margin="10" TextWrapping="WrapWithOverflow"/>
+        <TextBlock x:Name="Txb_Tips" Grid.Row="0" Grid.Column="1" Foreground="#FFEEEEEE" FontSize="14" Padding="0" Margin="10" TextWrapping="WrapWithOverflow" UseLayoutRounding="True"/>
 
         <Rectangle Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Fill="#FF666666" RadiusX="1" RadiusY="1" Margin="5,180,5,0" HorizontalAlignment="Stretch" Height="2"/>
 
-        <Label Grid.Row="1" Grid.Column="0" Content="Statistics:" FontSize="24" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="10,7,10,0" Height="28"/>
+        <Label Grid.Row="1" Grid.Column="0" Content="Statistics:" FontSize="24" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="10,7,10,0" Height="28" UseLayoutRounding="True"/>
         <Button x:Name="Btn_Refresh" Grid.Row="1" Margin="122,7,0,0" FontSize="14" HorizontalAlignment="Left" Width="28" Height="28" VerticalAlignment="Top" Click="Btn_Refresh_Click">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
@@ -81,79 +81,78 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="Pumps:" FontSize="18" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalAlignment="Left" Padding="0" Margin="10,5,0,0" Height="24"/>
+                <Label Grid.Column="0" Content="Pumps:" FontSize="18" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalAlignment="Left" Padding="0" Margin="10,5,0,0" Height="24" UseLayoutRounding="True"/>
                 <Rectangle Grid.Column="0" Fill="#FF666666" Height="2" Width="61" RadiusX="1" RadiusY="1" Margin="10,29,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
-                <Label Grid.Column="0" Content="Total litres dispensed:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="0,71,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Pumps_Total" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,71,0,0" Height="18" HorizontalAlignment="Left"/>
-                <Label Grid.Column="0" Content="Diesel:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="141,89,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Pumps_TotalDiesel" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,89,0,0" Height="18" HorizontalAlignment="Left"/>
-                <Label Grid.Column="0" Content="Gasoline:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="122,107,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Pumps_TotalGasoline" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,107,0,0" Height="18" HorizontalAlignment="Left"/>
-                <Label Grid.Column="0" Content="Lpg:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="159,125,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Pumps_TotalLpg" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,125,0,0" Height="18" HorizontalAlignment="Left"/>
+                <Label Grid.Column="0" Content="Total litres dispensed:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="0,71,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Pumps_Total" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,71,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
+                <Label Grid.Column="0" Content="Diesel:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="141,89,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Pumps_TotalDiesel" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,89,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
+                <Label Grid.Column="0" Content="Gasoline:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="122,107,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Pumps_TotalGasoline" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,107,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
+                <Label Grid.Column="0" Content="Lpg:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="159,125,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Pumps_TotalLpg" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,125,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
 
-                <Label Grid.Column="0" Content="Average litres dispensed:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="10,148,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Pumps_Average" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,148,0,0" Height="18" HorizontalAlignment="Left"/>
-                <Label Grid.Column="0" Content="Diesel:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="141,166,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Pumps_AverageDiesel" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,166,0,0" Height="18" HorizontalAlignment="Left"/>
-                <Label Grid.Column="0" Content="Gasoline:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="122,184,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Pumps_AverageGasoline" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,184,0,0" Height="18" HorizontalAlignment="Left"/>
-                <Label Grid.Column="0" Content="Lpg:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="159,202,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Pumps_AverageLpg" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,202,0,0" Height="18" HorizontalAlignment="Left"/>
+                <Label Grid.Column="0" Content="Average litres dispensed:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="10,148,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Pumps_Average" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,148,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
+                <Label Grid.Column="0" Content="Diesel:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="141,166,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Pumps_AverageDiesel" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,166,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
+                <Label Grid.Column="0" Content="Gasoline:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="122,184,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Pumps_AverageGasoline" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,184,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
+                <Label Grid.Column="0" Content="Lpg:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="159,202,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Pumps_AverageLpg" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,202,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
 
-                <Label Grid.Column="0" Content="Most used fuel:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="82,225,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Pumps_MostUsedFuel" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,225,0,0" Height="18" HorizontalAlignment="Left"/>
-                <Label Grid.Column="0" Content="Less used fuel:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="83,243,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Pumps_LessUsedFuel" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,243,0,0" Height="18" HorizontalAlignment="Left"/>
-                <Label Grid.Column="0" Content="Most used pump:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="68,261,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Pumps_MostUsedPump" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,261,0,0" Height="18" HorizontalAlignment="Left"/>
-                <Label Grid.Column="0" Content="Less used pump:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="69,279,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Pumps_LessUsedPump" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,279,0,0" Height="18" HorizontalAlignment="Left"/>
+                <Label Grid.Column="0" Content="Most used fuel:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="82,225,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Pumps_MostUsedFuel" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,225,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
+                <Label Grid.Column="0" Content="Less used fuel:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="83,243,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Pumps_LessUsedFuel" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,243,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
+                <Label Grid.Column="0" Content="Most used pump:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="68,261,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Pumps_MostUsedPump" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,261,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
+                <Label Grid.Column="0" Content="Less used pump:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="69,279,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Pumps_LessUsedPump" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,279,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
             </Grid>
             <Grid Margin="10,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="Vehicles:" FontSize="18" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalAlignment="Left" Padding="0" Margin="10,5,0,0" Height="24"/>
+                <Label Grid.Column="0" Content="Vehicles:" FontSize="18" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalAlignment="Left" Padding="0" Margin="10,5,0,0" Height="24" UseLayoutRounding="True"/>
                 <Rectangle Grid.Column="0" Fill="#FF666666" Height="2" Width="73" RadiusX="1" RadiusY="1" Margin="10,29,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
-                <Label Grid.Column="0" Content="Most common vehicle:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="10,71,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Vehicle_MostCommonVehicle" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,71,0,0" Height="18" HorizontalAlignment="Left"/>
-                <Label Grid.Column="0" Content="Diesel:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="120,89,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Vehicle_MostCommonDiesel" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,89,0,0" Height="18" HorizontalAlignment="Left"/>
-                <Label Grid.Column="0" Content="Gasoline:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="101,107,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Vehicle_MostCommonGasoline" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,107,0,0" Height="18" HorizontalAlignment="Left"/>
-                <Label Grid.Column="0" Content="Lpg:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="138,125,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Vehicle_MostCommonLpg" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,125,0,0" Height="18" HorizontalAlignment="Left"/>
+                <Label Grid.Column="0" Content="Most common vehicle:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="10,71,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Vehicle_MostCommonVehicle" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,71,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
+                <Label Grid.Column="0" Content="Diesel:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="120,89,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Vehicle_MostCommonDiesel" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,89,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
+                <Label Grid.Column="0" Content="Gasoline:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="101,107,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Vehicle_MostCommonGasoline" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,107,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
+                <Label Grid.Column="0" Content="Lpg:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="138,125,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Vehicle_MostCommonLpg" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,125,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
 
-                <Label Grid.Column="0" Content="Average time fueling:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="19,148,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Vehicle_AverageTime" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,148,0,0" Height="18" HorizontalAlignment="Left"/>
-                <Label Grid.Column="0" Content="Car:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="139,166,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Vehicle_AverageTimeCar" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,166,0,0" Height="18" HorizontalAlignment="Left"/>
-                <Label Grid.Column="0" Content="Van:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="136,184,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Vehicle_AverageTimeVan" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,184,0,0" Height="18" HorizontalAlignment="Left"/>
-                <Label Grid.Column="0" Content="Lorry:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="128,202,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Vehicle_AverageTimeLorry" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,202,0,0" Height="18" HorizontalAlignment="Left"/>
+                <Label Grid.Column="0" Content="Average time fueling:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="19,148,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Vehicle_AverageTime" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,148,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
+                <Label Grid.Column="0" Content="Car:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="139,166,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Vehicle_AverageTimeCar" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,166,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
+                <Label Grid.Column="0" Content="Van:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="136,184,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Vehicle_AverageTimeVan" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,184,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
+                <Label Grid.Column="0" Content="Lorry:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="128,202,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Vehicle_AverageTimeLorry" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,202,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
             </Grid>
             <Grid Margin="10,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="Finances:" FontSize="18" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalAlignment="Left" Padding="0" Margin="10,5,0,0" Height="24"/>
+                <Label Grid.Column="0" Content="Finances:" FontSize="18" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalAlignment="Left" Padding="0" Margin="10,5,0,0" Height="24" UseLayoutRounding="True"/>
                 <Rectangle Grid.Column="0" Fill="#FF666666" Height="2" Width="73" RadiusX="1" RadiusY="1" Margin="10,29,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
-                <Label Grid.Column="0" Content="Total won:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="0,71,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Finances_TotalWon" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,71,0,0" Height="18" HorizontalAlignment="Left"/>
-                <Label Grid.Column="0" Content="Commission:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="0,89,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Finances_Commission" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,89,0,0" Height="18" HorizontalAlignment="Left"/>
-                <Label Grid.Column="0" Content="Salary with commission:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="0,107,5,0" Height="18"/>
-                <Label x:Name="Lbl_Stats_Finances_SalaryCommission" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,107,0,0" Height="18" HorizontalAlignment="Left"/>
+                <Label Grid.Column="0" Content="Total won:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="0,71,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Finances_TotalWon" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,71,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
+                <Label Grid.Column="0" Content="Commission:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="0,89,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Finances_Commission" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,89,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
+                <Label Grid.Column="0" Content="Salary with commission:" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="0,107,5,0" Height="18" UseLayoutRounding="True"/>
+                <Label x:Name="Lbl_Stats_Finances_SalaryCommission" Grid.Column="1" FontSize="16" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="0" Margin="5,107,0,0" Height="18" HorizontalAlignment="Left" UseLayoutRounding="True"/>
             </Grid>
         </WrapPanel>
-
 
         <Button x:Name="Btn_Receipts" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Content="Receipt Folder" Height="40" Width="100" Margin="0,0,325,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="14" Click="Btn_Receipts_Click"/>
         <Button x:Name="Btn_Default" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Content="Default Values" Height="40" Width="100" Margin="0,0,220,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="14" Click="Btn_Default_Click"/>
