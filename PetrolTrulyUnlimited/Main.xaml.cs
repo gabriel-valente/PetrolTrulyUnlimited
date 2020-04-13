@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Timers;
 using System.Windows;
@@ -19,6 +17,7 @@ namespace PetrolTrulyUnlimited
         private List<Vehicle> vehiclesQueue = new List<Vehicle>(); //List of Queued vehicles
         private List<Vehicle> vehiclesPump = new List<Vehicle>(); //List of vehicles in the pump
         static public List<Receipt> receipts = new List<Receipt>(); //List of receipts of the pumps
+        private List<Receipt> listReceipts = new List<Receipt>(); //List of receipts that is shown
 
         private QueueInformation queueInformation = new QueueInformation(); //Variable of information in queue popup
         static public PumpInformation[] pumpInformation = 
@@ -47,7 +46,7 @@ namespace PetrolTrulyUnlimited
         {
             InitializeComponent();
 
-            Lst_Receipts.ItemsSource = receipts;
+            Lst_Receipts.ItemsSource = listReceipts;
 
             //Spawn Timer Parameters
             spawnInterval = rnd.Next(Global.MIN_SPAWN_TIME, Global.MAX_SPAWN_TIME);
@@ -364,6 +363,7 @@ namespace PetrolTrulyUnlimited
                 pumpTempInfo.NotFullVehicle++;
             }
 
+            //Creates a new receipt
             Receipt receipt = new Receipt() {
                 Vehicle = vehicle,
                 PumpId = pump.Id,
@@ -373,7 +373,7 @@ namespace PetrolTrulyUnlimited
                 Time = fuelingTime
             };
 
-
+            //Sets the temporary info for the pump
             if (vehicle.FuelType.Type == "Diesel")
             {
                 pumpTempInfo.LitresDispensed[Global.DIESEL_INDEX] += receipt.Litres;
@@ -395,17 +395,19 @@ namespace PetrolTrulyUnlimited
 
             float totalWon = 0;
 
+            //Calculates the total amount won
             foreach (float item in pumpTempInfo.AmountWon)
             {
                 totalWon += item;
             }
 
+            //Calculates the comission and assigns the receipt
             pumpTempInfo.Commission = totalWon * 0.01f;
             pumpTempInfo.Receipt = receipt;
 
-            pumpInformation[pumpId - 1] = pumpTempInfo;
+            pumpInformation[pumpId - 1] = pumpTempInfo; //Assigns the temp info to the pump
 
-            PumpPopup();
+            PumpPopup(); //Updates the info if needed
 
             //Sets up the fuelling timer
             pump.FuelingTimer.Interval = fuelingTime;
@@ -415,8 +417,17 @@ namespace PetrolTrulyUnlimited
                 {
                     UpdateVehicleImage(vehicleId, "Pump"); //Updates the UI
 
-                    receipts.Insert(0, receipt);
-                    UpdateReceipts();
+                    receipts.Insert(0, receipt); //Adds the last receipt to the begining of the "internal" receipt list
+                    listReceipts.Insert(0, receipt); //Adds the last receipt to the begining of the "external" receipt list
+
+                    //Checks if the external list has 200 items
+                    if (listReceipts.Count > 200)
+                    {
+                        int amount = listReceipts.Count - 200; //Counts the amount of items to remove
+                        listReceipts.RemoveRange(200, amount); //Removes from 200 and olders
+                    }
+
+                    UpdateReceipts(); //Updates the list
 
                     pumpInformation[pumpId - 1].Receipt = new Receipt();
                     PumpPopup();
@@ -615,9 +626,14 @@ namespace PetrolTrulyUnlimited
             }
         }
 
+        /// <summary>
+        /// Opens Settings page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_Settings_Click(object sender, RoutedEventArgs e)
         {
-            ((MainWindow)Application.Current.MainWindow).Frm_Main.Content = new Settings();
+            ((MainWindow)Application.Current.MainWindow).Frm_Main.Content = new Settings(); //References the MainWindow frame and navigates to the settings page
         }
     }
 }

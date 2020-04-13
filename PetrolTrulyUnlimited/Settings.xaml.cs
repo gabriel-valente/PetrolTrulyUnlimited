@@ -22,6 +22,7 @@ namespace PetrolTrulyUnlimited
                 "A new vehicle will appear between after some time that is between the minimum and the maximum time.\n" +
                 "This time is expressed in milliseconds.\n" +
                 "\u2022 Default Value: 1500ms - 2200ms.\n" +
+                "\u2022 Minimum Value: 300ms - 300ms.\n" +
                 "\u2022 3000ms - 5500ms, between 3s and 5.5s a new vehicle will be generated and added to the queue.\n" +
                 "\u2022 If the Spawn Rate is too high and multiple vehicles can't find an available pump, increase the values.",
 
@@ -29,6 +30,7 @@ namespace PetrolTrulyUnlimited
                 "If it takes too long to enter in the pump area the vehicle will leave without fueling.\n" +
                 "This time is expressed in milliseconds.\n" +
                 "\u2022 Default Value: 7000ms - 10000ms.\n" +
+                "\u2022 Minimum Value: 300ms - 300ms.\n" +
                 "\u2022 5000ms - 13000ms, the new created vehicle will wait between 5s and 13s until he leaves the queue.\n" +
                 "\u2022 If multiple vehicles are leaving without fueling increase the values so they can wait for more.",
 
@@ -36,6 +38,7 @@ namespace PetrolTrulyUnlimited
                 "If the queue is full, new vehicles won't be created and any statistics will be changed.\n" +
                 "This value is expressed in whole vehicles.\n" +
                 "\u2022 Default Value: 5 Vehicles.\n" +
+                "\u2022 Minimum Value: 1 Vehicle.\n" +
                 "\u2022 10 Vehicles means that the queue will be receiving new vehicles until there is 10 vehicles waiting.\n" +
                 "\u2022 If some vehicles goes to the pump or leaves the queue, new vehicles will arrive after the time specified.",
 
@@ -43,6 +46,7 @@ namespace PetrolTrulyUnlimited
                 "If the vehicle would take more than this time, now he will take just the maximum time possible.\n" +
                 "This time is expressed in milliseconds.\n" +
                 "\u2022 Default Value: 18000ms.\n" +
+                "\u2022 Minimum Value: 300ms.\n" +
                 "\u2022 20000ms means if the car would thame more than 20s now he will be just for 20s and will leave with a not totally filled tank.\n" +
                 "\u2022 This value combined with the \"Pump Dispensing velocity\" manages how long the vehicles will need to stay in the pump and how many leave without a full tank.\n" +
                 "\u2022 If many vehicles are leaving without a full tank increase this value.",
@@ -51,6 +55,7 @@ namespace PetrolTrulyUnlimited
                 "If this value is too low vehicles will need more time to fuel the same amount of fuel.\n" +
                 "This time is expressed in millisseconds.\n" +
                 "\u2022 Default Value: 1.5l/s.\n" +
+                "\u2022 Minimum Value: 0.1l/s.\n" +
                 "\u2022 2l/s means every seconds the pump dispenses 2 litres of fuel.\n" +
                 "\u2022 This value combined with the \"Maximum Fueling Time\" manages how long the vehicles will need to stay in the pump and how many leave without a full tank.\n" +
                 "\u2022 If the vehicles takes too long to fuel increase this value.",
@@ -59,20 +64,33 @@ namespace PetrolTrulyUnlimited
                 "This value is individual for the queue and pump.\n" +
                 "This time is expressed in milliseconds.\n" +
                 "\u2022 Default Value: 150ms.\n" +
+                "\u2022 Minimum Value: 1ms.\n" +
                 "\u2022 100ms means the vehicle will take 100ms to leave the queue and 100ms to enter the pump.\n" +
                 "\u2022 This value can impact the performance of the pump since during this time the vehicle is not in the pump therefore is not fueling.\n" +
-                "\u2022 If this animation is not important for the pump logic this value can be 0.\n" +
+                "\u2022 If this animation is not important for the pump logic this value can be 1.\n" +
                 "\u2022 Please notice if the value is too high the vehicles will take too long to leave and enter the pump."
+        };
+        //Minimum value for each variable available in the settings
+        private readonly string[] minValues = {
+            "300",
+            "300",
+            "1",
+            "300",
+            "0,1",
+            "1"
         };
 
         public Settings()
         {
             InitializeComponent();
 
-            AssignValues();
-            UpdateStats();
+            AssignValues(); //Gets values from Global variables
+            UpdateStats(); //Updates statistics
         }
 
+        /// <summary>
+        /// Assigns valus from Global file to labels.
+        /// </summary>
         private void AssignValues()
         {
             //Reads the values from the global variables and assigns it to the TextBoxes
@@ -86,6 +104,9 @@ namespace PetrolTrulyUnlimited
             Txt_AnimationTime.Text = Global.ANIMATION_TIME.ToString();
         }
 
+        /// <summary>
+        /// Updates statistics of each type.
+        /// </summary>
         private void UpdateStats()
         {
             //Sets some variables with the running app information
@@ -223,90 +244,102 @@ namespace PetrolTrulyUnlimited
             float averageVanTime = 0f;
             float averageLorryTime = 0f;
 
+            //Goes through each pump information
             foreach (PumpInformation item in pumpInfo)
             {
+                //This try is to prevent errors if the user enters the settings page before any vehicle is in the pump
                 try
                 {
-                    int vehicleIndex = Array.IndexOf(vehicles, vehicles.First(_ => _.Type == item.Receipt.Vehicle.Type));
-                    int fuelIndex = Array.IndexOf(fuels, fuels.First(_ => _.Type == item.Receipt.Fuel.Type));
+                    int vehicleIndex = Array.IndexOf(vehicles, vehicles.First(_ => _.Type == item.Receipt.Vehicle.Type)); //Gets the vehicle index (from "vehicles")
+                    int fuelIndex = Array.IndexOf(fuels, fuels.First(_ => _.Type == item.Receipt.Fuel.Type)); //Gets the vehicle index (from "fuels")
 
-                    fuelCount[vehicleIndex, fuelIndex]++;
-                    fuelTime[vehicleIndex, fuelIndex] += item.Receipt.Time;
-                    }
+                    fuelCount[vehicleIndex, fuelIndex]++; //Adds one to the counter of vehicle - fuel
+                    fuelTime[vehicleIndex, fuelIndex] += item.Receipt.Time; //Adds the time of vehicle - fuel
+                }
                 catch (Exception)
                 {
                 }
             }
 
+            //Goes through each pump information
             foreach (Receipt item in receiptsInfo)
             {
+                //This try is to prevent errors if the user enters the settings page before any vehicle is finnished
                 try
                 {
-                    int vehicleIndex = Array.IndexOf(vehicles, vehicles.First(_ => _.Type == item.Vehicle.Type));
-                    int fuelIndex = Array.IndexOf(fuels, fuels.First(_ => _.Type == item.Fuel.Type));
+                    int vehicleIndex = Array.IndexOf(vehicles, vehicles.First(_ => _.Type == item.Vehicle.Type)); //Gets the vehicle index (from "vehicles")
+                    int fuelIndex = Array.IndexOf(fuels, fuels.First(_ => _.Type == item.Fuel.Type)); //Gets the vehicle index (from "fuels")
 
-                    fuelCount[vehicleIndex, fuelIndex]++;
-                    fuelTime[vehicleIndex, fuelIndex] += item.Time;
+                    fuelCount[vehicleIndex, fuelIndex]++; //Adds one to the counter of vehicle - fuel
+                    fuelTime[vehicleIndex, fuelIndex] += item.Time; //Adds the time of vehicle - fuel
                 }
                 catch (Exception)
                 {
                 }
             }
 
+            //Goes in each index of the first dimension (vehicle)
             for (int i = 0; i < fuelCount.GetLength(0); i++)
             {
+                //Goes in each index of the second dimension (fuel)
                 for (int j = 0; j < fuelCount.GetLength(1); j++)
                 {
+                    //Checks if the count is higher to get the most common vehicle
                     if (fuelCount[i, j] > fuelCount[mostCommonVehicle[0], mostCommonVehicle[1]])
                     {
-                        mostCommonVehicle = new int[] { i, j };
+                        mostCommonVehicle = new int[] { i, j }; //Sets the index (x, y) of the most common vehicle
                     }
                 }
 
+                //Checks what is the most common diesel vehicle
                 if (fuelCount[i, Global.DIESEL_INDEX] > fuelCount[mostCommonDiesel, Global.DIESEL_INDEX])
                 {
-                    mostCommonDiesel = i;
+                    mostCommonDiesel = i; //Sets the index of the most common diesel vehicle 
                 }
 
+                //Checks what is the most common gasoline vehicle
                 if (fuelCount[i, Global.GASOLINE_INDEX] > fuelCount[mostCommonDiesel, Global.GASOLINE_INDEX])
                 {
-                    mostCommonGasoline = i;
+                    mostCommonGasoline = i; //Sets the index of the most common gasoline vehicle 
                 }
 
+                //Checks what is the most common LPG vehicle
                 if (fuelCount[i, Global.LPG_INDEX] > fuelCount[mostCommonDiesel, Global.LPG_INDEX])
                 {
-                    mostCommonLpg = i;
+                    mostCommonLpg = i; //Sets the index of the most common LPG vehicle 
                 }
             }
 
-            float sumCTime = 0f;
-            float sumVTime = 0f;
-            float sumLTime = 0f;
-            int sumCCount = 0;
-            int sumVCount = 0;
-            int sumLCount = 0;
+            float sumCTime = 0f; //Sum car time
+            float sumVTime = 0f; //Sum van time
+            float sumLTime = 0f; //Sum lorry time
+            int sumCCount = 0; //Sum car count
+            int sumVCount = 0; //Sum van count
+            int sumLCount = 0; //sum lorry count
 
-            averageTime = fuelTime.Cast<float>().Sum() / fuelCount.Cast<int>().Sum();
+            averageTime = fuelTime.Cast<float>().Sum() / fuelCount.Cast<int>().Sum(); //Calculates the average time of all vehicles
 
+            //Goes through each time saved
             for (int i = 0; i < fuelTime.GetLength(0); i++)
             {
-                sumCTime += fuelTime[0, i];
-                sumVTime += fuelTime[1, i];
-                sumLTime += fuelTime[2, i];
-                sumCCount += fuelCount[0, i];
-                sumVCount += fuelCount[1, i];
-                sumLCount += fuelCount[2, i];
+                sumCTime += fuelTime[0, i]; //Adds car fuelling time
+                sumVTime += fuelTime[1, i]; //Adds van fuelling time
+                sumLTime += fuelTime[2, i]; //Adds lorry fuelling time
+                sumCCount += fuelCount[0, i]; //Adds car count
+                sumVCount += fuelCount[1, i]; //Adds van count
+                sumLCount += fuelCount[2, i]; //Adds lorry count
             }
 
-            averageCarTime = sumCTime / sumCCount;
-            averageVanTime = sumVTime / sumVCount;
-            averageLorryTime = sumLTime / sumLCount;
+            averageCarTime = sumCTime / sumCCount; //Calculates the car fueling time
+            averageVanTime = sumVTime / sumVCount; //Calculates the van fueling time
+            averageLorryTime = sumLTime / sumLCount; //Calculates the lorry fueling time
 
-
+            //Assigns each data to the corresponding label
             Lbl_Stats_Vehicle_MostCommonVehicle.Content = vehicles[mostCommonVehicle[0]].Type;
             Lbl_Stats_Vehicle_MostCommonDiesel.Content = vehicles[mostCommonDiesel].Type;
             Lbl_Stats_Vehicle_MostCommonGasoline.Content = vehicles[mostCommonGasoline].Type;
             Lbl_Stats_Vehicle_MostCommonLpg.Content = vehicles[mostCommonLpg].Type;
+            //This checks if the data is NaN or not, if it is NaN it displays 0 otherwise displays the corresponding data
             Lbl_Stats_Vehicle_AverageTime.Content = string.Format("{0} sec.", !float.IsNaN(averageTime) ? Math.Round(averageTime / 1000, 2) : 0.0);
             Lbl_Stats_Vehicle_AverageTimeCar.Content = string.Format("{0} sec.", !float.IsNaN(averageCarTime) ? Math.Round(averageCarTime / 1000, 2) : 0.0);
             Lbl_Stats_Vehicle_AverageTimeVan.Content = string.Format("{0} sec.", !float.IsNaN(averageVanTime) ? Math.Round(averageVanTime / 1000, 2) : 0.0);
@@ -318,70 +351,113 @@ namespace PetrolTrulyUnlimited
             float amountWon = 0f;
             float commission = 0f;
 
-
+            //Goes through each pump information
             foreach (PumpInformation item in pumpInfo)
             {
+                //This try is to prevent errors if the user enters the settings page before any vehicle is in the pump
                 try
                 {
-                    amountWon += item.Receipt.Cost;
-                    commission += item.Receipt.Cost * 0.01f;
+                    amountWon += item.Receipt.Cost; //Adds the cost of the fuelling
+                    commission += item.Receipt.Cost * 0.01f; //Adds the amount of commission
                 }
                 catch (Exception)
                 {
                 }
             }
 
+            //Goes through each receipt
             foreach (Receipt item in receiptInfo)
             {
+                //This try is to prevent errors if the user enters the settings page before any vehicle is finnished
                 try
                 {
-                    amountWon += item.Cost;
-                    commission += item.Cost * 0.01f;
+                    amountWon += item.Cost; //Adds the cost of the fuelling
+                    commission += item.Cost * 0.01f; //Adds the amount of commission
                 }
                 catch (Exception)
                 {
                 }
             }
 
+            //Assigns each data to the corresponding label
             Lbl_Stats_Finances_TotalWon.Content = string.Format(CultureInfo.InvariantCulture, "{0:##0.00£}", amountWon);
             Lbl_Stats_Finances_Commission.Content = string.Format(CultureInfo.InvariantCulture, "{0:##0.00£}", commission);
             Lbl_Stats_Finances_SalaryCommission.Content = string.Format(CultureInfo.InvariantCulture, "{0:##0.00£}", (2.49f * 8) + commission);
         }
 
+        /// <summary>
+        /// Refreshes the data on Statistics.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_Refresh_Click(object sender, RoutedEventArgs e)
         {
-            UpdateStats();
+            UpdateStats(); //Calls the function that will load again the stats.
         }
 
+        /// <summary>
+        /// Checks wish of the textboxes is focused.
+        /// </summary>
+        /// <param name="sender">TextBox on focus.</param>
+        /// <param name="e"></param>
         private new void GotFocus(object sender, RoutedEventArgs e)
         {
-            TextBox label = (TextBox)sender;
-            int index = Convert.ToInt32(label.Tag.ToString());
+            TextBox label = (TextBox)sender; //Gets the Textbox on focus
+            int index = Convert.ToInt32(label.Tag.ToString()); //Sets the variable with the tag on the textbox
 
-            Txb_Tips.Text = tips[index];
+            Txb_Tips.Text = tips[index]; //Displays the information that is on the array to the tips label
         }
 
+        /// <summary>
+        /// Checks if the value is above the minimum
+        /// </summary>
+        /// <param name="sender">TextBox that lost focus.</param>
+        /// <param name="e"></param>
+        private void Txt_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox label = (TextBox)sender; //Gets the Textbox that lost the focus
+            int index = Convert.ToInt32(label.Tag.ToString()); //Sets the variable with the tag on the textbox
+
+            //Checks if the value writen is bigger than the minimum
+            if (label.Text.Length == 0 || float.Parse(minValues[index]) > float.Parse(label.Text))
+            {
+                label.Text = minValues[index]; //If what is written is smaller than the minimum, the minumum will be set
+            }
+        }
+
+        /// <summary>
+        /// Sets the default values.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_Default_Click(object sender, RoutedEventArgs e)
         {
-            StreamReader sr = new StreamReader(Global.FILELOCATION_DEFAULTVALUES);
+            StreamReader sr = new StreamReader(Global.FILELOCATION_DEFAULTVALUES); //Opens the file writer on the default configuration file
 
+            //Goes through each line of the file until reaches the end
             while (!sr.EndOfStream)
             {
-                string line = sr.ReadLine();
+                string line = sr.ReadLine(); //Assigns the line to a variable
 
-                string[] data = line.Split(new char[] { ':' });
+                string[] data = line.Split(new char[] { ':' }); //Splits the line into the seperate values by the character that devides them
 
+                //Checks if its not the animation variable
                 if (typeof(Global).GetField(data[0].Trim()).FieldType.ToString() != "System.Windows.Media.Animation.DoubleAnimation" && !typeof(Global).GetField(data[0].Trim()).IsLiteral)
                 {
-                    typeof(Global).GetField(data[0].Trim()).SetValue(this, Convert.ChangeType(data[1].Trim(), Type.GetType(data[2].Trim())));
+                    typeof(Global).GetField(data[0].Trim()).SetValue(this, Convert.ChangeType(data[1].Trim(), Type.GetType(data[2].Trim()))); //Gets the variable from the Global file, and assigns the value with the correct data type
                 }
             }
 
-            sr.Close();
+            sr.Close(); //Closes the file reader
 
-            AssignValues();
+            AssignValues(); //Assigns the values from the variables to the textboxe to edit
         }
 
+        /// <summary>
+        /// Goes to the previus page without saving.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_Back_Click(object sender, RoutedEventArgs e)
         {
             ((MainWindow)Application.Current.MainWindow).Frm_Main.GoBack(); //References the MainWindow frame and navigates to the previous page
@@ -394,6 +470,24 @@ namespace PetrolTrulyUnlimited
         /// <param name="e"></param>
         private void Btn_Save_Click(object sender, RoutedEventArgs e)
         {
+            //Checks if the user wrote the longer time on the smaller time textbox
+            if (int.Parse(Txt_MinSpawnTime.Text) > int.Parse(Txt_MaxSpawnTime.Text))
+            {
+                string temp = Txt_MaxSpawnTime.Text; //Saves the shorter time
+
+                Txt_MaxSpawnTime.Text = Txt_MinSpawnTime.Text; //Swaps the values to the correct order
+                Txt_MinSpawnTime.Text = temp; //Sets the shorter time
+            }
+
+            //Checks if the user wrote the longer time on the smaller time textbox
+            if (int.Parse(Txt_MinServiceTime.Text) > int.Parse(Txt_MaxServiceTime.Text))
+            {
+                string temp = Txt_MaxServiceTime.Text; //Saves the shorter time
+
+                Txt_MaxServiceTime.Text = Txt_MinServiceTime.Text; //Swaps the values to the correct order
+                Txt_MinServiceTime.Text = temp; //Sets the shorter time
+            }
+
             //Assigns every value to the specific variable
             Global.MIN_SPAWN_TIME = int.Parse(Txt_MinSpawnTime.Text);
             Global.MAX_SPAWN_TIME = int.Parse(Txt_MaxSpawnTime.Text);
@@ -420,7 +514,7 @@ namespace PetrolTrulyUnlimited
 
             sw.Close(); //Closes the file writer
 
-            ((MainWindow)Application.Current.MainWindow).Frm_Main.GoBack(); //Goes back to the previous page
+            ((MainWindow)Application.Current.MainWindow).Frm_Main.GoBack(); //References the MainWindow frame and navigates to the previous page
         }
 
         /// <summary>
@@ -493,57 +587,6 @@ namespace PetrolTrulyUnlimited
 
                 e.Handled = true; //Tells that the key was already handled
             }
-        }
-
-
-        private int ArrayAdd(int[,] Array)
-        {
-            int[] array = Array.Cast<int>().ToArray();
-            int sum = 0;
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                sum += array[i];
-            }
-
-            return sum;
-        }
-
-        private float ArrayAdd(float[,] Array)
-        {
-            float[] array = Array.Cast<float>().ToArray();
-            float sum = 0;
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                sum += array[i];
-            }
-
-            return sum;
-        }
-
-        private int ArrayAdd(int[] Array)
-        {
-            int sum = 0;
-
-            for (int i = 0; i < Array.Length; i++)
-            {
-                sum += Array[i];
-            }
-
-            return sum;
-        }
-
-        private float ArrayAdd(float[] Array)
-        {
-            float sum = 0;
-
-            for (int i = 0; i < Array.Length; i++)
-            {
-                sum += Array[i];
-            }
-
-            return sum;
         }
     }
 }

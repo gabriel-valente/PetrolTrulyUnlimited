@@ -22,10 +22,6 @@ namespace PetrolTrulyUnlimited
 
         static public int MAX_QUEUE_SIZE = 5;
 
-        static public string CAR_FUEL = "123";
-        static public string VAN_FUEL = "12";
-        static public string LORRY_FUEL = "1";
-
         //Constants
         public const byte LOWEST_PRIORITY_PUMP = 6;
         public const int DIESEL_INDEX = 0;
