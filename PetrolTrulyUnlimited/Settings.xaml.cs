@@ -54,7 +54,7 @@ namespace PetrolTrulyUnlimited
         "The \"Pump Dispensing velocity\" is how much the pump dispenses every second.\n" +
                 "If this value is too low vehicles will need more time to fuel the same amount of fuel.\n" +
                 "This time is expressed in millisseconds.\n" +
-                "\u2022 Default Value: 1.5l/s.\n" +
+                "\u2022 Default Value: 3.5l/s.\n" +
                 "\u2022 Minimum Value: 0.1l/s.\n" +
                 "\u2022 2l/s means every seconds the pump dispenses 2 litres of fuel.\n" +
                 "\u2022 This value combined with the \"Maximum Fueling Time\" manages how long the vehicles will need to stay in the pump and how many leave without a full tank.\n" +
