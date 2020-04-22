@@ -127,42 +127,84 @@ namespace PetrolTrulyUnlimited
             };
 
             //Loads each type of data to display
-            StatsFuel(pumpInfo, receiptsInfo, fuels);
-            StatsVehicle(pumpInfo, receiptsInfo, fuels, vehicles);
-            StatsFinance(pumpInfo, receiptsInfo);
+            GetStats(pumpInfo, receiptsInfo, fuels, vehicles);
         }
 
         /// <summary>
-        /// Computes and displays fuel related data.
+        /// Gets avery statistic available to display.
         /// </summary>
         /// <param name="pumpInfo">Array with all data from each pump.</param>
-        /// <param name="receiptsInfo">Array with all receipts.</param>
-        /// <param name="fuels">Array with each fuel available.</param>
-        private void StatsFuel(PumpInformation[] pumpInfo, Receipt[] receiptsInfo, Fuel[] fuels)
+        /// <param name="receiptInfo">Array with all receipts.</param>
+        /// <param name="receiptInfo">Array with all types of fuels.</param>
+        /// <param name="receiptInfo">Array with all types of vehicles.</param>
+        private void GetStats(PumpInformation[] pumpInfo, Receipt[] receiptsInfo, Fuel[] fuels, Vehicle[] vehicles)
         {
             //Variables with data to display to the user
             float totalLitres = 0f;
-            float[] totalEachFuel = new float[] { 0f, 0f, 0f };
             float averageLitres = 0f;
+            float averageTime = 0f;
+            float averageCarTime = 0f;
+            float averageVanTime = 0f;
+            float averageLorryTime = 0f;
+            float amountWon = 0f;
+            float commission = 0f;
+            float sumCTime = 0f; //Sum car time
+            float sumVTime = 0f; //Sum van time
+            float sumLTime = 0f; //Sum lorry time
+            float[] totalEachFuel = new float[] { 0f, 0f, 0f };
             float[] averageEachFuel = new float[] { 0f, 0f, 0f };
+            float[,] fuelTime = new float[,] {
+                { 0f, 0f, 0f },
+                { 0f, 0f, 0f },
+                { 0f, 0f, 0f }
+            };
 
             int countVehicles = 0;
-            int[] countEachVehicles = new int[] { 0, 0, 0 };
             int maxFuelIndex = 0;
             int minFuelIndex = 0;
+            int mostCommonDiesel = 0;
+            int mostCommonGasoline = 0;
+            int mostCommonLpg = 0;
+            int sumCCount = 0; //Sum car count
+            int sumVCount = 0; //Sum van count
+            int sumLCount = 0; //sum lorry count
+            int[] countEachVehicles = new int[] { 0, 0, 0 };
             int[] pumpUsed = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            int[] mostCommonVehicle = new int[] { 0, 0 };
+            //Each row is one type of vehicle and each collumn is one type of fuel
+            int[,] fuelCount = new int[,] {
+                { 0, 0, 0 },
+                { 0, 0, 0 },
+                { 0, 0, 0 }
+            };
 
             //Goes through each pump information
             foreach (PumpInformation pump in pumpInfo)
             {
-                //For each type of fuel in the pump
-                for (int i = 0; i < pump.LitresDispensed.Length; i++)
+                //This try is to prevent errors if the user enters the settings page before any vehicle is in the pump
+                try
                 {
-                    totalLitres += pump.LitresDispensed[i]; //Adds to the total amount of fuel dispensed
-                    totalEachFuel[i] += pump.LitresDispensed[i]; //Adds to the fuel dispensed of that type
+                    int vehicleIndex = Array.IndexOf(vehicles, vehicles.First(_ => _.Type == pump.Receipt.Vehicle.Type)); //Gets the vehicle index (from "vehicles")
+                    int fuelIndex = Array.IndexOf(fuels, fuels.First(_ => _.Type == pump.Receipt.Fuel.Type)); //Gets the vehicle index (from "fuels")
 
-                    countVehicles += pump.VehiclesCounter[i]; //Adds one vehicle to the total vehicles served
-                    countEachVehicles[i] += pump.VehiclesCounter[i]; //Adds one to the that type of vehicle served
+                    fuelCount[vehicleIndex, fuelIndex]++; //Adds one to the counter of vehicle - fuel
+                    fuelTime[vehicleIndex, fuelIndex] += pump.Receipt.Time; //Adds the time of vehicle - fuel
+
+                    amountWon += pump.Receipt.Cost; //Adds the cost of the fuelling
+                    commission += pump.Receipt.Cost * 0.01f; //Adds the amount of commission
+
+                    //For each type of fuel in the pump
+                    for (int i = 0; i < pump.LitresDispensed.Length; i++)
+                    {
+                        totalLitres += pump.LitresDispensed[i]; //Adds to the total amount of fuel dispensed
+                        totalEachFuel[i] += pump.LitresDispensed[i]; //Adds to the fuel dispensed of that type
+
+                        countVehicles += pump.VehiclesCounter[i]; //Adds one vehicle to the total vehicles served
+                        countEachVehicles[i] += pump.VehiclesCounter[i]; //Adds one to the that type of vehicle served
+                    }
+                }
+                catch (Exception)
+                {
                 }
             }
 
@@ -185,93 +227,24 @@ namespace PetrolTrulyUnlimited
 
                 averageEachFuel[i] = totalEachFuel[i] / countEachVehicles[i]; //Calculates the average for each type of fuel
             }
-            
+
             //Goes through each receipt
             foreach (Receipt receipt in receiptsInfo)
-            {
-                //Pump index is one less than the pump id
-                pumpUsed[receipt.PumpId - 1]++; //Adds one to the specific pump
-            }
-
-            //Assigns each data to the corresponding label
-            Lbl_Stats_Pumps_Total.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(totalLitres, 2));
-            Lbl_Stats_Pumps_TotalDiesel.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(totalEachFuel[Global.DIESEL_INDEX], 2));
-            Lbl_Stats_Pumps_TotalGasoline.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(totalEachFuel[Global.GASOLINE_INDEX], 2));
-            Lbl_Stats_Pumps_TotalLpg.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(totalEachFuel[Global.LPG_INDEX], 2));
-
-            //This checks if the data is NaN or not, if it is NaN it displays 0 otherwise displays the corresponding data
-            Lbl_Stats_Pumps_Average.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", !float.IsNaN(averageLitres) ? Math.Round(averageLitres, 2) : 0.0);
-            Lbl_Stats_Pumps_AverageDiesel.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", !float.IsNaN(averageEachFuel[Global.DIESEL_INDEX]) ? Math.Round(averageEachFuel[Global.DIESEL_INDEX], 2) : 0.0);
-            Lbl_Stats_Pumps_AverageGasoline.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", !float.IsNaN(averageEachFuel[Global.GASOLINE_INDEX]) ? Math.Round(averageEachFuel[Global.GASOLINE_INDEX], 2) : 0.0);
-            Lbl_Stats_Pumps_AverageLpg.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", !float.IsNaN(averageEachFuel[Global.LPG_INDEX]) ? Math.Round(averageEachFuel[Global.LPG_INDEX], 2) : 0.0);
-
-            Lbl_Stats_Pumps_MostUsedFuel.Content = fuels[maxFuelIndex].Type;
-            Lbl_Stats_Pumps_LessUsedFuel.Content = fuels[minFuelIndex].Type;
-            Lbl_Stats_Pumps_MostUsedPump.Content = string.Format("{0:Pump #}", Array.IndexOf(pumpUsed, pumpUsed.Max()) + 1); //Displays the id of the most used pump
-            Lbl_Stats_Pumps_LessUsedPump.Content = string.Format("{0:Pump #}", Array.IndexOf(pumpUsed, pumpUsed.Min()) + 1); //Displays the id of the less used pump
-        }
-
-        /// <summary>
-        /// Computes and displays vehicle related data.
-        /// </summary>
-        /// <param name="pumpInfo">Array with all data from each pump.</param>
-        /// <param name="receiptsInfo">Array with all receipts.</param>
-        /// <param name="fuels">Array with each fuel available.</param>
-        /// <param name="vehicles">Array with each possible vehicle.</param>
-        private void StatsVehicle(PumpInformation[] pumpInfo, Receipt[] receiptsInfo, Fuel[] fuels, Vehicle[] vehicles)
-        {
-            //Each row is one type of vehicle and each collumn is one type of fuel
-            int[,] fuelCount = new int[,] {
-                { 0, 0, 0 },
-                { 0, 0, 0 },
-                { 0, 0, 0 }
-            };
-
-            int[] mostCommonVehicle = new int[] { 0, 0 };
-            
-            int mostCommonDiesel = 0;
-            int mostCommonGasoline = 0;
-            int mostCommonLpg = 0;
-
-            float[,] fuelTime = new float[,] {
-                { 0f, 0f, 0f },
-                { 0f, 0f, 0f },
-                { 0f, 0f, 0f }
-            };
-
-            float averageTime = 0f;
-            float averageCarTime = 0f;
-            float averageVanTime = 0f;
-            float averageLorryTime = 0f;
-
-            //Goes through each pump information
-            foreach (PumpInformation item in pumpInfo)
-            {
-                //This try is to prevent errors if the user enters the settings page before any vehicle is in the pump
-                try
-                {
-                    int vehicleIndex = Array.IndexOf(vehicles, vehicles.First(_ => _.Type == item.Receipt.Vehicle.Type)); //Gets the vehicle index (from "vehicles")
-                    int fuelIndex = Array.IndexOf(fuels, fuels.First(_ => _.Type == item.Receipt.Fuel.Type)); //Gets the vehicle index (from "fuels")
-
-                    fuelCount[vehicleIndex, fuelIndex]++; //Adds one to the counter of vehicle - fuel
-                    fuelTime[vehicleIndex, fuelIndex] += item.Receipt.Time; //Adds the time of vehicle - fuel
-                }
-                catch (Exception)
-                {
-                }
-            }
-
-            //Goes through each pump information
-            foreach (Receipt item in receiptsInfo)
             {
                 //This try is to prevent errors if the user enters the settings page before any vehicle is finnished
                 try
                 {
-                    int vehicleIndex = Array.IndexOf(vehicles, vehicles.First(_ => _.Type == item.Vehicle.Type)); //Gets the vehicle index (from "vehicles")
-                    int fuelIndex = Array.IndexOf(fuels, fuels.First(_ => _.Type == item.Fuel.Type)); //Gets the vehicle index (from "fuels")
+                    //Pump index is one less than the pump id
+                    pumpUsed[receipt.PumpId - 1]++; //Adds one to the specific pump
+
+                    int vehicleIndex = Array.IndexOf(vehicles, vehicles.First(_ => _.Type == receipt.Vehicle.Type)); //Gets the vehicle index (from "vehicles")
+                    int fuelIndex = Array.IndexOf(fuels, fuels.First(_ => _.Type == receipt.Fuel.Type)); //Gets the vehicle index (from "fuels")
 
                     fuelCount[vehicleIndex, fuelIndex]++; //Adds one to the counter of vehicle - fuel
-                    fuelTime[vehicleIndex, fuelIndex] += item.Time; //Adds the time of vehicle - fuel
+                    fuelTime[vehicleIndex, fuelIndex] += receipt.Time; //Adds the time of vehicle - fuel
+
+                    amountWon += receipt.Cost; //Adds the cost of the fuelling
+                    commission += receipt.Cost * 0.01f; //Adds the amount of commission
                 }
                 catch (Exception)
                 {
@@ -310,13 +283,6 @@ namespace PetrolTrulyUnlimited
                 }
             }
 
-            float sumCTime = 0f; //Sum car time
-            float sumVTime = 0f; //Sum van time
-            float sumLTime = 0f; //Sum lorry time
-            int sumCCount = 0; //Sum car count
-            int sumVCount = 0; //Sum van count
-            int sumLCount = 0; //sum lorry count
-
             averageTime = fuelTime.Cast<float>().Sum() / fuelCount.Cast<int>().Sum(); //Calculates the average time of all vehicles
 
             //Goes through each time saved
@@ -335,6 +301,23 @@ namespace PetrolTrulyUnlimited
             averageLorryTime = sumLTime / sumLCount; //Calculates the lorry fueling time
 
             //Assigns each data to the corresponding label
+            Lbl_Stats_Pumps_Total.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(totalLitres, 2));
+            Lbl_Stats_Pumps_TotalDiesel.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(totalEachFuel[Global.DIESEL_INDEX], 2));
+            Lbl_Stats_Pumps_TotalGasoline.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(totalEachFuel[Global.GASOLINE_INDEX], 2));
+            Lbl_Stats_Pumps_TotalLpg.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", Math.Round(totalEachFuel[Global.LPG_INDEX], 2));
+
+            //This checks if the data is NaN or not, if it is NaN it displays 0 otherwise displays the corresponding data
+            Lbl_Stats_Pumps_Average.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", !float.IsNaN(averageLitres) ? Math.Round(averageLitres, 2) : 0.0);
+            Lbl_Stats_Pumps_AverageDiesel.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", !float.IsNaN(averageEachFuel[Global.DIESEL_INDEX]) ? Math.Round(averageEachFuel[Global.DIESEL_INDEX], 2) : 0.0);
+            Lbl_Stats_Pumps_AverageGasoline.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", !float.IsNaN(averageEachFuel[Global.GASOLINE_INDEX]) ? Math.Round(averageEachFuel[Global.GASOLINE_INDEX], 2) : 0.0);
+            Lbl_Stats_Pumps_AverageLpg.Content = string.Format(CultureInfo.InvariantCulture, "{0:###0.00L}", !float.IsNaN(averageEachFuel[Global.LPG_INDEX]) ? Math.Round(averageEachFuel[Global.LPG_INDEX], 2) : 0.0);
+
+            Lbl_Stats_Pumps_MostUsedFuel.Content = fuels[maxFuelIndex].Type;
+            Lbl_Stats_Pumps_LessUsedFuel.Content = fuels[minFuelIndex].Type;
+            Lbl_Stats_Pumps_MostUsedPump.Content = string.Format("{0:Pump #}", Array.IndexOf(pumpUsed, pumpUsed.Max()) + 1); //Displays the id of the most used pump
+            Lbl_Stats_Pumps_LessUsedPump.Content = string.Format("{0:Pump #}", Array.IndexOf(pumpUsed, pumpUsed.Min()) + 1); //Displays the id of the less used pump
+
+            //Assigns each data to the corresponding label
             Lbl_Stats_Vehicle_MostCommonVehicle.Content = vehicles[mostCommonVehicle[0]].Type;
             Lbl_Stats_Vehicle_MostCommonDiesel.Content = vehicles[mostCommonDiesel].Type;
             Lbl_Stats_Vehicle_MostCommonGasoline.Content = vehicles[mostCommonGasoline].Type;
@@ -344,40 +327,6 @@ namespace PetrolTrulyUnlimited
             Lbl_Stats_Vehicle_AverageTimeCar.Content = string.Format("{0} sec.", !float.IsNaN(averageCarTime) ? Math.Round(averageCarTime / 1000, 2) : 0.0);
             Lbl_Stats_Vehicle_AverageTimeVan.Content = string.Format("{0} sec.", !float.IsNaN(averageVanTime) ? Math.Round(averageVanTime / 1000, 2) : 0.0);
             Lbl_Stats_Vehicle_AverageTimeLorry.Content = string.Format("{0} sec.", !float.IsNaN(averageLorryTime) ? Math.Round(averageLorryTime / 1000, 2) : 0.0);
-        }
-
-        private void StatsFinance(PumpInformation[] pumpInfo, Receipt[] receiptInfo)
-        {
-            float amountWon = 0f;
-            float commission = 0f;
-
-            //Goes through each pump information
-            foreach (PumpInformation item in pumpInfo)
-            {
-                //This try is to prevent errors if the user enters the settings page before any vehicle is in the pump
-                try
-                {
-                    amountWon += item.Receipt.Cost; //Adds the cost of the fuelling
-                    commission += item.Receipt.Cost * 0.01f; //Adds the amount of commission
-                }
-                catch (Exception)
-                {
-                }
-            }
-
-            //Goes through each receipt
-            foreach (Receipt item in receiptInfo)
-            {
-                //This try is to prevent errors if the user enters the settings page before any vehicle is finnished
-                try
-                {
-                    amountWon += item.Cost; //Adds the cost of the fuelling
-                    commission += item.Cost * 0.01f; //Adds the amount of commission
-                }
-                catch (Exception)
-                {
-                }
-            }
 
             //Assigns each data to the corresponding label
             Lbl_Stats_Finances_TotalWon.Content = string.Format(CultureInfo.InvariantCulture, "{0:##0.00£}", amountWon);
@@ -396,14 +345,14 @@ namespace PetrolTrulyUnlimited
         }
 
         /// <summary>
-        /// Checks wish of the textboxes is focused.
+        /// Checks which of the textboxes is focused.
         /// </summary>
         /// <param name="sender">TextBox on focus.</param>
         /// <param name="e"></param>
         private new void GotFocus(object sender, RoutedEventArgs e)
         {
-            TextBox label = (TextBox)sender; //Gets the Textbox on focus
-            int index = Convert.ToInt32(label.Tag.ToString()); //Sets the variable with the tag on the textbox
+            TextBox textbox = (TextBox)sender; //Gets the Textbox on focus
+            int index = Convert.ToInt32(textbox.Tag.ToString()); //Sets the variable with the tag on the textbox
 
             Txb_Tips.Text = tips[index]; //Displays the information that is on the array to the tips label
         }
@@ -415,13 +364,13 @@ namespace PetrolTrulyUnlimited
         /// <param name="e"></param>
         private void Txt_LostFocus(object sender, RoutedEventArgs e)
         {
-            TextBox label = (TextBox)sender; //Gets the Textbox that lost the focus
-            int index = Convert.ToInt32(label.Tag.ToString()); //Sets the variable with the tag on the textbox
+            TextBox textbox = (TextBox)sender; //Gets the Textbox that lost the focus
+            int index = Convert.ToInt32(textbox.Tag.ToString()); //Sets the variable with the tag on the textbox
 
             //Checks if the value writen is bigger than the minimum
-            if (label.Text.Length == 0 || float.Parse(minValues[index]) > float.Parse(label.Text))
+            if (textbox.Text.Length == 0 || float.Parse(minValues[index]) > float.Parse(textbox.Text))
             {
-                label.Text = minValues[index]; //If what is written is smaller than the minimum, the minumum will be set
+                textbox.Text = minValues[index]; //If what is written is smaller than the minimum, the minumum will be set
             }
         }
 
@@ -536,8 +485,8 @@ namespace PetrolTrulyUnlimited
         {
             Key input = e.Key; //Key pressed
             //Possible key presses
-            Key[] range = { 
-                Key.D0, Key.D1, Key.D2, Key.D3, Key.D4, Key.D5, Key.D6, Key.D7, Key.D8, Key.D9, 
+            Key[] range = {
+                Key.D0, Key.D1, Key.D2, Key.D3, Key.D4, Key.D5, Key.D6, Key.D7, Key.D8, Key.D9,
                 Key.NumPad0, Key.NumPad1, Key.NumPad2, Key.NumPad3, Key.NumPad4, Key.NumPad5, Key.NumPad6, Key.NumPad7, Key.NumPad8, Key.NumPad9,
                 Key.Delete, Key.Back,
                 Key.Left, Key.Right

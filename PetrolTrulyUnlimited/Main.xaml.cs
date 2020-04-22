@@ -122,8 +122,6 @@ namespace PetrolTrulyUnlimited
             {
                 AddVehicleImage(vehicle.Id, vehicle.Type, vehicle.FuelType.Type, "Queue"); //Adds vehicle image in queue
             });
-
-            //AssignVehicleToPump(); //Checks if any vehicle can go in a pump
         }
 
         /// <summary>
@@ -155,6 +153,7 @@ namespace PetrolTrulyUnlimited
         /// </summary>
         /// <param name="id">Id of the vehicle.</param>
         /// <param name="type">Type of vehicle to display.</param>
+        /// <param name="fuel">Type of fuel in the vehicle.</param>
         /// <param name="place">If its in the Queue or Pump.</param>
         /// <param name="pump">Pump number, can be null.</param>
         private void AddVehicleImage(int id, string type, string fuel, string place, int? pump = null)
